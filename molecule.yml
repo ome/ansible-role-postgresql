@@ -1,0 +1,40 @@
+---
+driver:
+  name: docker
+
+vagrant:
+  platforms:
+    - name: centos7
+      box: centos/7
+  providers:
+    - name: virtualbox
+      type: virtualbox
+      options:
+        memory: 512
+        cpus: 1
+  instances:
+    - name: postgresql-94-localhost
+    - name: postgresql-94-all
+
+docker:
+  containers:
+  - name: postgresql-94-localhost
+    image: centos/systemd
+    image_version: latest
+    privileged: True
+  - name: postgresql-94-all
+    image: centos/systemd
+    image_version: latest
+    privileged: True
+
+ansible:
+  host_vars:
+    postgresql-94-all:
+    - postgresql_server_listen: "'*'"
+      postgresql_server_auth:
+      - database: publicdb
+        user: alice
+        address: 192.168.1.0/24
+
+verifier:
+  name: testinfra

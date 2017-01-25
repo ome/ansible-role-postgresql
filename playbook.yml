@@ -1,0 +1,12 @@
+---
+- hosts: all
+  roles:
+    - role: ansible-role-postgresql
+      postgresql_users_databases:
+      - user: alice
+        password: alice123
+        databases: [publicdb, secretdb]
+      - user: bob
+        password: bob123
+        databases: [publicdb]
+        roles: "CREATEDB,NOSUPERUSER"
