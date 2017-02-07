@@ -15,6 +15,8 @@ vagrant:
   instances:
     - name: postgresql-94-localhost
     - name: postgresql-94-all
+    - name: postgresql-95-localhost
+    - name: postgresql-96-localhost
 
 docker:
   containers:
@@ -23,6 +25,14 @@ docker:
     image_version: latest
     privileged: True
   - name: postgresql-94-all
+    image: centos/systemd
+    image_version: latest
+    privileged: True
+  - name: postgresql-95-localhost
+    image: centos/systemd
+    image_version: latest
+    privileged: True
+  - name: postgresql-96-localhost
     image: centos/systemd
     image_version: latest
     privileged: True
@@ -35,6 +45,10 @@ ansible:
       - database: publicdb
         user: alice
         address: 192.168.1.0/24
+    postgresql-95-localhost:
+    - postgresql_version: "9.5"
+    postgresql-96-localhost:
+    - postgresql_version: "9.6"
 
 verifier:
   name: testinfra
