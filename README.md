@@ -10,7 +10,7 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL version, either 9.4 (default) or 9.3
+- `postgresql_version`: The PostgreSQL version: `9.4` (default), `9.5`, `9.6`
 - `postgresql_install_server`: If True (default) install and initialise the server, otherwise only install the client
 - `postgresql_users_databases`: List of dictionaries of users and databases, ignored unless `postgresql_install_server` is `True`. Items should be of the form:
   - `user`: Database username
