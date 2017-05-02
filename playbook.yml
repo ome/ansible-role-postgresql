@@ -24,9 +24,9 @@
       changed_when: "not ('skipping' in result.stderr or '0 0' in result.stdout)"
       with_items:
           - "create table if not exists regular (text text primary key);"
-          - "insert into regular values ('clear text') on conflict do nothing;"
+          - "insert into regular select ('clear text') where not exists (select text from regular);"
           - "create table if not exists password (text text primary key);"
-          - "insert into password values ('PRIVATE!') on conflict do nothing;"
+          - "insert into password select ('PRIVATE!') where not exists (select text from password);"
 
     - name: permit read access to charles
       become: yes
