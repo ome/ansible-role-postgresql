@@ -10,3 +10,42 @@
         password: bob123
         databases: [publicdb]
         roles: "CREATEDB,NOSUPERUSER"
+      - user: charles
+        password: charles123
+        databases: [publicdb]
+        privs: "SELECT"
+        # roles: "LOGIN,NOCREATEDB,NOCREATEROLE,NOCREATEUSER,NOINHERIT,NOREPLICATION,NOSUPERUSER"
+
+- hosts: all
+  tasks:
+    - name: create test tables
+      command: env PGPASSWORD=alice123 psql -h localhost -U alice publicdb -c "{{ item }}"
+      register: result
+      changed_when: "not ('skipping' in result.stderr or '0 0' in result.stdout)"
+      with_items:
+          - "create table if not exists regular (text text primary key);"
+          - "insert into regular values ('clear text') on conflict do nothing;"
+          - "create table if not exists password (text text primary key);"
+          - "insert into password values ('PRIVATE!') on conflict do nothing;"
+
+    - name: permit read access to charles
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: publicdb
+        type: table
+        objs: ALL_IN_SCHEMA
+        state: present
+        privs: SELECT
+        role: charles
+
+    - name: but remove access to password table from charles
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: publicdb
+        type: table
+        objs: password
+        state: absent
+        privs: ALL
+        role: charles
