@@ -6,6 +6,7 @@ molecule:
   test:
     sequence:
       - destroy
+      - syntax
       - create
       - converge
       - verify
