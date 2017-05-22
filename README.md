@@ -11,8 +11,8 @@ Role Variables
 Defaults: `defaults/main.yml`
 
 - `postgresql_version`: The PostgreSQL version: `9.4` (default), `9.5`, `9.6`
-- `postgresql_install_server`: If True (default) install and initialise the server, otherwise only install the client
-- `postgresql_users_databases`: List of dictionaries of users and databases, ignored unless `postgresql_install_server` is `True`. Items should be of the form:
+- `postgresql_install_server`: If True (default) install and initialise the server (unless already installed and initialised), otherwise only install the client
+- `postgresql_users_databases`: List of dictionaries of users and databases to be created, ignored unless `postgresql_install_server` is `True`. Items should be of the form:
   - `user`: Database username
   - `password`: Database user password
   - `databases`: [List of database names that user has access to]
@@ -30,6 +30,7 @@ Defaults: `defaults/main.yml`
 Example Playbook
 ----------------
 
+    # Install PostgreSQL, configure authenticaton, create users and databases.
     - hosts: localhost
       roles:
       - postgresql
