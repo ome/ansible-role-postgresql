@@ -19,7 +19,9 @@ def run(Command, sql, should_pass, password, name):
 @pytest.mark.parametrize("name,password,table,should_pass", [
     ('alice', 'alice123', "regular", True),
     ('alice', 'alice123', "password", True),
-    ('charles', 'charles123', "regular", True),
+    # Charles has not had permissions added due to
+    # idempotency issues in molecule.
+    ('charles', 'charles123', "regular", False),
     ('charles', 'charles123', "password", False),
 ])
 def test_query(Command, name, password, table, should_pass):

@@ -2,16 +2,6 @@
 driver:
   name: docker
 
-molecule:
-  test:
-    sequence:
-      - destroy
-      - syntax
-      - create
-      - converge
-      - verify
-      - destroy
-
 vagrant:
   platforms:
     - name: centos7
