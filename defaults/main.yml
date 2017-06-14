@@ -1,5 +1,5 @@
 ---
-# defaults file for roles/postgresql
+# defaults file for openmicroscopy.postgresql
 
 # Version of postgres (see vars)
 postgresql_version: "9.4"
