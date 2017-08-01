@@ -54,6 +54,22 @@
     - restart postgresql
   when: postgresql_install_server
 
+- name: postgres | additional options
+  become: yes
+  become_user: postgres
+  lineinfile:
+    backup: yes
+    dest: "{{ postgresql_datadir }}/postgresql.conf"
+    group: postgres
+    line: "{{ item.key }} = {{ item.value }}"
+    owner: postgres
+    regexp: "^{{ item.key }}\\s*="
+    state: present
+  notify:
+    - restart postgresql
+  when: postgresql_install_server
+  with_dict: "{{ postgresql_server_conf_options }}"
+
 - name: postgres | configure client authorisation
   become: yes
   become_user: postgres
