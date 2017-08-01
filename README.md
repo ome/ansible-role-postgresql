@@ -12,6 +12,7 @@ Defaults: `defaults/main.yml`
 
 - `postgresql_version`: The PostgreSQL version: `9.4` (default), `9.5`, `9.6`
 - `postgresql_install_server`: If True (default) install and initialise the server (unless already installed and initialised), otherwise only install the client
+- `postgresql_install_extensions`: If `True` install extension (contrib) package, default `False`
 - `postgresql_users_databases`: List of dictionaries of users and databases to be created, ignored unless `postgresql_install_server` is `True`. Items should be of the form:
   - `user`: Database username
   - `password`: Database user password

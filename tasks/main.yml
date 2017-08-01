@@ -20,6 +20,13 @@
     state: present
   when: postgresql_install_server
 
+- name: postgres | install extension packages
+  become: yes
+  yum:
+    name: "{{ postgresql_basename }}-contrib"
+    state: present
+  when: postgresql_install_extensions
+
 - name: postgres | set permissions on data directory
   become: yes
   file:
