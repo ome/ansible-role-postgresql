@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 # -----------------------------
 # PostgreSQL configuration file
 # -----------------------------
@@ -639,3 +641,14 @@ default_text_search_config = 'pg_catalog.english'
 #------------------------------------------------------------------------------
 
 # Add settings for extensions here
+
+
+#------------------------------------------------------------------------------
+# ANSIBLE OPTIONS
+#------------------------------------------------------------------------------
+
+listen_addresses = {{ postgresql_server_listen }}
+
+{% for option in (postgresql_server_conf | sort) %}
+{{ option }} = {{ postgresql_server_conf[option] }}
+{% endfor %}
