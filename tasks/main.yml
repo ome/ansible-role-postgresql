@@ -60,7 +60,6 @@
   become: yes
   become_user: postgres
   template:
-    backup: yes
     dest: "{{ postgresql_datadir }}/pg_hba.conf"
     src: pg_hba-conf.j2
   notify:
