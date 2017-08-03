@@ -17,7 +17,7 @@ postgresql_users_databases: []
 postgresql_server_listen: localhost
 
 # Dictionary of additional postgresql.conf options
-postgresql_server_conf_options: {}
+postgresql_server_conf: {}
 
 # Whether to enable the default local authentication methods
 postgresql_server_auth_local: True
