@@ -20,6 +20,13 @@
     state: present
   when: postgresql_install_server
 
+- name: postgres | install extension packages
+  become: yes
+  yum:
+    name: "{{ postgresql_basename }}-contrib"
+    state: present
+  when: postgresql_install_extensions
+
 - name: postgres | set permissions on data directory
   become: yes
   file:
@@ -39,17 +46,12 @@
     PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
   when: postgresql_install_server
 
-- name: postgres | set listen interfaces directory
+- name: postgres | postgresql config file
   become: yes
   become_user: postgres
-  lineinfile:
-    backup: yes
+  template:
     dest: "{{ postgresql_datadir }}/postgresql.conf"
-    group: postgres
-    line: "listen_addresses = {{ postgresql_server_listen }}"
-    owner: postgres
-    regexp: "^listen_addresses\\s*="
-    state: present
+    src: postgresql-conf.j2
   notify:
     - restart postgresql
   when: postgresql_install_server
@@ -58,7 +60,6 @@
   become: yes
   become_user: postgres
   template:
-    backup: yes
     dest: "{{ postgresql_datadir }}/pg_hba.conf"
     src: pg_hba-conf.j2
   notify:
