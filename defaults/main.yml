@@ -10,8 +10,11 @@ postgresql_install_server: True
 # Install contrib extensions?
 postgresql_install_extensions: False
 
-# List of dictionaries containing user and databases information
-postgresql_users_databases: []
+# List of dictionaries of databases
+postgresql_databases: []
+
+# List of dictionaries of users
+postgresql_users: []
 
 # Network interfaces to listen on
 postgresql_server_listen: localhost

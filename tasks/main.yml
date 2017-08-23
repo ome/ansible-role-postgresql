@@ -75,4 +75,3 @@
   when: postgresql_install_server
 
 - include: databases.yml
-  when: postgresql_users_databases.0 is defined
