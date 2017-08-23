@@ -42,8 +42,11 @@ Restricted databases
 --------------------
 
 In general it is not possible to create users with restricted access (e.g. read-only users) until a schema has been populated.
-This role automatically removes the default PUBLIC privileges from all databases, then grants `ALL` privileges to any databases listed in `postgresql_users`.
-If you wish to created a restricted user omit the `databases` field in `postgresql_users`, and use the [Ansible `postgresql_privs`](http://docs.ansible.com/ansible/latest/postgresql_privs_module.html) module to grant access after the database schema has been created.
+This role optionally removes the default PUBLIC privileges from all databases, then grants:
+- `ALL` privileges to the database owner if specified (`postgresql_databases[].owner`)
+- `CONNECT` privilege to the database, and `USAGE` privilege on the `public` schema, to databases listed for each user (`postgresql_users[].databases`)
+
+If you wish to created a restricted user set the `databases` field in `postgresql_users` to `[]`, and use the [Ansible `postgresql_privs`](http://docs.ansible.com/ansible/latest/postgresql_privs_module.html) module to grant access after the database schema has been created.
 
 An example can be seen in [`playbook.yml`](playbook.yml).
 
@@ -86,7 +89,7 @@ Example Playbook
           databases: [secretdb]
         - user: bob
           password: bob123
-          databases: [secretdb]
+          databases: []
 
 
 Author Information
