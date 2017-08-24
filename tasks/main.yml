@@ -75,3 +75,4 @@
   when: postgresql_install_server
 
 - include: databases.yml
+  when: postgresql_install_server

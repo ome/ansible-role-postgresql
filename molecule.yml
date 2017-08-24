@@ -17,6 +17,7 @@ vagrant:
     - name: postgresql-94-all
     - name: postgresql-95-localhost
     - name: postgresql-96-localhost
+    - name: postgresql-noserver
 
 docker:
   containers:
@@ -44,6 +45,9 @@ docker:
     privileged: True
     ansible_groups:
     - server
+  - name: postgresql-noserver
+    image: centos
+    image_version: 7
 
 ansible:
   host_vars:
@@ -61,6 +65,9 @@ ansible:
       postgresql_server_conf:
         shared_preload_libraries: "'pg_stat_statements'"
         log_filename: "'postgresql-%F.log'"
+    postgresql-noserver:
+      postgresql_version: "9.6"
+      postgresql_install_server: False
 
 verifier:
   name: testinfra
