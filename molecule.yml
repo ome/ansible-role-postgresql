@@ -13,29 +13,34 @@ vagrant:
         memory: 512
         cpus: 1
   instances:
-    - name: postgresql-94-localhost
     - name: postgresql-94-all
     - name: postgresql-95-localhost
     - name: postgresql-96-localhost
+    - name: postgresql-noserver
 
 docker:
   containers:
-  - name: postgresql-94-localhost
-    image: centos/systemd
-    image_version: latest
-    privileged: True
   - name: postgresql-94-all
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
   - name: postgresql-95-localhost
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
   - name: postgresql-96-localhost
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
+  - name: postgresql-noserver
+    image: centos
+    image_version: 7
 
 ansible:
   host_vars:
@@ -53,6 +58,9 @@ ansible:
       postgresql_server_conf:
         shared_preload_libraries: "'pg_stat_statements'"
         log_filename: "'postgresql-%F.log'"
+    postgresql-noserver:
+      postgresql_version: "9.6"
+      postgresql_install_server: False
 
 verifier:
   name: testinfra

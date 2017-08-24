@@ -1,6 +1,11 @@
 ---
-# Manage a local databases and users
+# Manage local databases and users
 # This only works where the local system `postgres` user has admin rights
+
+- name: postgres | fail if old variable defined
+  fail:
+    msg: Variable 'postgresql_users_databases' has been replaced by 'postgresql_databases' and 'postgresql_users'
+  when: 'postgresql_users_databases | default(False)'
 
 - name: postgres | install ansible prerequisites
   become: yes
@@ -10,27 +15,119 @@
   with_items:
   - python-psycopg2
 
-- name: postgres | create database
+- name: postgres | create users
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    encrypted: yes
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    role_attr_flags: "{{ item.roles | default(omit) }}"
+    state: present
+  with_items:
+  - "{{ postgresql_users }}"
+
+- name: postgres | create databases
   become: yes
   become_user: postgres
   postgresql_db:
     encoding: UTF-8
-    name: "{{ item.1 }}"
+    name: "{{ item.name }}"
+    owner: "{{ item.owner | default(omit) }}"
     state: present
-  with_subelements:
-    - "{{ postgresql_users_databases }}"
-    - databases
+  with_items:
+  - "{{ postgresql_databases }}"
 
-- name: postgres | create user
+# Setting privileges is complicated:
+# - https://stackoverflow.com/a/39029296
+
+# From https://www.postgresql.org/docs/9.6/static/sql-grant.html:
+#
+# "The key word PUBLIC indicates that the privileges are to be granted to all
+# roles, including those that might be created later. PUBLIC can be thought of
+# as an implicitly defined group that always includes all roles. Any
+# particular role will have the sum of privileges granted directly to it,
+# privileges granted to any role it is presently a member of, and privileges
+# granted to PUBLIC."
+#
+# "There is no need to grant privileges to the owner of an object (usually
+# the user that created it), as the owner has all privileges by default. (The
+# owner could, however, choose to revoke some of their own privileges for
+# safety.)"
+#
+# "PostgreSQL grants default privileges on some types of objects to PUBLIC.
+# No privileges are granted to PUBLIC by default on tables, columns, schemas
+# or tablespaces. For other types, the default privileges granted to PUBLIC
+# are as follows: CONNECT and CREATE TEMP TABLE for databases; EXECUTE
+# privilege for functions; and USAGE privilege for languages."
+
+- name: postgres | revoke default permissions
   become: yes
   become_user: postgres
-  postgresql_user:
-    db: "{{ item.1 }}"
-    encrypted: yes
-    name: "{{ item.0.user }}"
-    password: "{{ item.0.password }}"
-    role_attr_flags: "{{ item.0.roles | default(omit) }}"
+  postgresql_privs:
+    database: "{{ item.name }}"
+    privs: ALL
+    roles: PUBLIC
+    state: absent
+    type: database
+  when: "item.restrict | default(False)"
+  with_items:
+  - "{{ postgresql_databases }}"
+
+# Revoke the default permissions on the public schema
+- name: postgres | revoke default schema permissions
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    database: "{{ item.name }}"
+    obj: public
+    privs: ALL
+    roles: PUBLIC
+    state: absent
+    type: schema
+  when: "item.restrict | default(False)"
+  with_items:
+  - "{{ postgresql_databases }}"
+
+# The default public schema is owned by postgres, and since the PUBLIC
+# privileges are revoked we must grant them back to the owner
+- name: postgres | grant database owner public schema privileges
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    database: "{{ item.name }}"
+    obj: public
+    privs: ALL
+    roles: "{{ item.owner }}"
     state: present
+    type: schema
+  when: item.owner is defined
+  with_items:
+  - "{{ postgresql_databases }}"
+
+- name: postgres | grant connect privileges
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    database: "{{ item.1 }}"
+    privs: CONNECT
+    roles: "{{ item.0.user }}"
+    state: present
+    type: database
   with_subelements:
-    - "{{ postgresql_users_databases }}"
-    - databases
+  - "{{ postgresql_users }}"
+  - databases
+
+- name: postgres | grant usage privileges on default public schema
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    database: "{{ item.1 }}"
+    objs: public
+    privs: USAGE
+    roles: "{{ item.0.user }}"
+    state: present
+    type: schema
+  with_subelements:
+  - "{{ postgresql_users }}"
+  - databases
