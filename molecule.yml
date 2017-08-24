@@ -13,7 +13,6 @@ vagrant:
         memory: 512
         cpus: 1
   instances:
-    - name: postgresql-94-localhost
     - name: postgresql-94-all
     - name: postgresql-95-localhost
     - name: postgresql-96-localhost
@@ -21,12 +20,6 @@ vagrant:
 
 docker:
   containers:
-  - name: postgresql-94-localhost
-    image: centos/systemd
-    image_version: latest
-    privileged: True
-    ansible_groups:
-    - server
   - name: postgresql-94-all
     image: centos/systemd
     image_version: latest
