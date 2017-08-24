@@ -24,18 +24,26 @@ docker:
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
   - name: postgresql-94-all
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
   - name: postgresql-95-localhost
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
   - name: postgresql-96-localhost
     image: centos/systemd
     image_version: latest
     privileged: True
+    ansible_groups:
+    - server
 
 ansible:
   host_vars:

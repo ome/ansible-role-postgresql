@@ -20,7 +20,7 @@
         password: charles123
         databases: []
 
-- hosts: all
+- hosts: server
   tasks:
     - name: create test tables publicdb
       command: env PGPASSWORD=alice123 psql -h localhost -U alice publicdb -c "{{ item }}"

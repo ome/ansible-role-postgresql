@@ -3,7 +3,7 @@ import pytest
 import uuid
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '.molecule/ansible_inventory').get_hosts('all')
+    '.molecule/ansible_inventory').get_hosts('server')
 
 CMD = 'env PGPASSWORD=%s createdb -h localhost -U %s "%s"'
 

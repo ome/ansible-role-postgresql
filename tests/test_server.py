@@ -3,7 +3,7 @@ import pytest
 from re import match
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '.molecule/ansible_inventory').get_hosts('all')
+    '.molecule/ansible_inventory').get_hosts('server')
 
 
 @pytest.mark.parametrize("name,expected_db", [
