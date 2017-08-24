@@ -2,6 +2,11 @@
 # Manage local databases and users
 # This only works where the local system `postgres` user has admin rights
 
+- name: postgres | fail if old variable defined
+  fail:
+    msg: Variable 'postgresql_users_databases' has been replaced by 'postgresql_databases' and 'postgresql_users'
+  when: 'postgresql_users_databases | default(False)'
+
 - name: postgres | install ansible prerequisites
   become: yes
   yum:
