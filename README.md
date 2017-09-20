@@ -59,7 +59,7 @@ Example Playbook
     - hosts: localhost
       roles:
       - role: postgresql
-        postgresql_server_listen: "'* '"
+        postgresql_server_listen: "'*'"
         postgresql_server_auth:
         - database: publicdb
           user: alice
