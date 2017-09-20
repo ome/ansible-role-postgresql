@@ -27,7 +27,7 @@ The following parameters will be ignored if `postgresql_install_server: False`:
   - `databases`: List of databases that user can connect to, required but can be empty `[]`
   - `roles`: Role attribute flags, optional
   If you want the user to have restricted access see the section below on Restricted users.
-- `postgresql_server_listen`: Listen on these interfaces, default `localhost`, use `"'*'"` for all
+- `postgresql_server_listen`: Listen on these interfaces, default `localhost`, use `'*'` for all
 - `postgresql_server_conf`: Dictionary of additional postgresql.conf options
 - `postgresql_server_auth_local`: Whether to allow the default postgres local authentication (default `True`)
 - `postgresql_server_auth`: List of dictionaries of authorisation parameters, if omitted the default local authentication only will be enabled. Items should be of the form:
