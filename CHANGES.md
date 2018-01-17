@@ -8,7 +8,7 @@
   - `postgresql_databases`: The databases to be created
   - `postgresql_users`: The users to be created, and the databases they have access to
 
-  See [README.md] for full documentation
+  See [README.md](README.md) for full documentation
 
 
 # Changes in Version 2
