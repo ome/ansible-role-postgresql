@@ -1,6 +1,9 @@
 Postgresql
 ==========
 
+[![Build Status](https://travis-ci.org/openmicroscopy/ansible-role-postgresql.svg)](https://travis-ci.org/openmicroscopy/ansible-role-postgresql)
+[![Ansible Role](https://img.shields.io/ansible/role/14774.svg)](https://galaxy.ansible.com/openmicroscopy/postgresql/)
+
 Install upstream PostgreSQL server.
 Optionally creates users and databases.
 
