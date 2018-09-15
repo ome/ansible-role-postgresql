@@ -20,47 +20,47 @@ vagrant:
 
 docker:
   containers:
-  - name: postgresql-94-all
-    image: centos/systemd
-    image_version: latest
-    privileged: True
-    ansible_groups:
-    - server
-  - name: postgresql-95-localhost
-    image: centos/systemd
-    image_version: latest
-    privileged: True
-    ansible_groups:
-    - server
-  - name: postgresql-96-localhost
-    image: centos/systemd
-    image_version: latest
-    privileged: True
-    ansible_groups:
-    - server
-  - name: postgresql-noserver
-    image: centos
-    image_version: 7
+    - name: postgresql-94-all
+      image: centos/systemd
+      image_version: latest
+      privileged: true
+      ansible_groups:
+        - server
+    - name: postgresql-95-localhost
+      image: centos/systemd
+      image_version: latest
+      privileged: true
+      ansible_groups:
+        - server
+    - name: postgresql-96-localhost
+      image: centos/systemd
+      image_version: latest
+      privileged: true
+      ansible_groups:
+        - server
+    - name: postgresql-noserver
+      image: centos
+      image_version: 7
 
 ansible:
   host_vars:
     postgresql-94-all:
       postgresql_server_listen: "'*'"
       postgresql_server_auth:
-      - database: publicdb
-        user: alice
-        address: 192.168.1.0/24
+        - database: publicdb
+          user: alice
+          address: 192.168.1.0/24
     postgresql-95-localhost:
       postgresql_version: "9.5"
     postgresql-96-localhost:
       postgresql_version: "9.6"
-      postgresql_install_extensions: True
+      postgresql_install_extensions: true
       postgresql_server_conf:
         shared_preload_libraries: "'pg_stat_statements'"
         log_filename: "'postgresql-%F.log'"
     postgresql-noserver:
       postgresql_version: "9.6"
-      postgresql_install_server: False
+      postgresql_install_server: false
 
 verifier:
   name: testinfra

@@ -5,10 +5,10 @@
 postgresql_version: "9.4"
 
 # Whether to install and setup PostgreSQL server
-postgresql_install_server: True
+postgresql_install_server: true
 
 # Install contrib extensions?
-postgresql_install_extensions: False
+postgresql_install_extensions: false
 
 # List of dictionaries of databases
 postgresql_databases: []
@@ -23,10 +23,10 @@ postgresql_server_listen: localhost
 postgresql_server_conf: {}
 
 # Whether to enable the default local authentication methods
-postgresql_server_auth_local: True
+postgresql_server_auth_local: true
 
 # List of dictionaries of client authorisation lines
 postgresql_server_auth: []
 
 # Recursively reset the owner/group of the postgres datadir?
-postgresql_server_chown_datadir: False
+postgresql_server_chown_datadir: false

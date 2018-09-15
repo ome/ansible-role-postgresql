@@ -2,43 +2,43 @@
 # tasks file for openmicroscopy.postgresql
 
 - name: postgres | setup repository
-  become: yes
+  become: true
   yum:
     name: "{{ postgresql_repourl }}"
     state: present
 
 - name: postgres | install client packages
-  become: yes
+  become: true
   yum:
     name: "{{ postgresql_basename }}"
     state: present
 
 - name: postgres | install server packages
-  become: yes
+  become: true
   yum:
     name: "{{ postgresql_basename }}-server"
     state: present
   when: postgresql_install_server
 
 - name: postgres | install extension packages
-  become: yes
+  become: true
   yum:
     name: "{{ postgresql_basename }}-contrib"
     state: present
   when: postgresql_install_extensions
 
 - name: postgres | set permissions on data directory
-  become: yes
+  become: true
   file:
     owner: postgres
     group: postgres
     path: "{{ postgresql_datadir }}"
-    recurse: yes
+    recurse: true
     state: directory
   when: postgresql_install_server and postgresql_server_chown_datadir
 
 - name: postgres | initialise PostgreSQL cluster (skip if data directory already exists)
-  become: yes
+  become: true
   command: "{{ postgresql_bindir }}/{{ postgresql_basename }}-setup initdb"
   args:
     creates: "{{ postgresql_datadir }}/PG_VERSION"
@@ -47,7 +47,7 @@
   when: postgresql_install_server
 
 - name: postgres | postgresql config file
-  become: yes
+  become: true
   become_user: postgres
   template:
     dest: "{{ postgresql_datadir }}/postgresql.conf"
@@ -57,7 +57,7 @@
   when: postgresql_install_server
 
 - name: postgres | configure client authorisation
-  become: yes
+  become: true
   become_user: postgres
   template:
     dest: "{{ postgresql_datadir }}/pg_hba.conf"
@@ -67,9 +67,9 @@
   when: postgresql_install_server
 
 - name: postgres | start service
-  become: yes
+  become: true
   service:
-    enabled: yes
+    enabled: true
     name: postgresql-{{ postgresql_version }}
     state: started
   when: postgresql_install_server
