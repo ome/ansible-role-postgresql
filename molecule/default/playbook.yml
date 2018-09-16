@@ -24,22 +24,34 @@
 - hosts: server
   tasks:
     - name: create test tables publicdb
-      command: env PGPASSWORD=alice123 psql -h localhost -U alice publicdb -c "{{ item }}"
+      command: >
+        env PGPASSWORD=alice123 psql -h localhost -U alice publicdb
+        -c "{{ item }}"
       register: result
-      changed_when: "not ('skipping' in result.stderr or '0 0' in result.stdout)"
+      changed_when: >
+        (not ('skipping' in result.stderr or '0 0' in result.stdout))
       with_items:
         - "create table if not exists regular (text text primary key);"
-        - "insert into regular select ('clear text') where not exists (select text from regular);"
+        - >
+          insert into regular select ('clear text') where not exists
+          (select text from regular);
 
     - name: create test tables secretdb
-      command: env PGPASSWORD=alice123 psql -h localhost -U alice secretdb -c "{{ item }}"
+      command: >-
+        env PGPASSWORD=alice123 psql -h localhost -U alice secretdb
+        -c "{{ item }}"
       register: result
-      changed_when: "not ('skipping' in result.stderr or '0 0' in result.stdout)"
+      changed_when: >
+        (not ('skipping' in result.stderr or '0 0' in result.stdout))
       with_items:
         - "create table if not exists regular (text text primary key);"
-        - "insert into regular select ('clear text') where not exists (select text from regular);"
+        - >
+          insert into regular select ('clear text') where not exists
+          (select text from regular);
         - "create table if not exists password (text text primary key);"
-        - "insert into password select ('PRIVATE!') where not exists (select text from password);"
+        - >
+          insert into password select ('PRIVATE!') where not exists
+          (select text from password);
 
     - name: set privileges on secretdb tables
       become: true

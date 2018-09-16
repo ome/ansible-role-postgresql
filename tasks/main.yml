@@ -37,7 +37,9 @@
     state: directory
   when: postgresql_install_server and postgresql_server_chown_datadir
 
-- name: postgres | initialise PostgreSQL cluster (skip if data directory already exists)
+- name: >-
+    postgres | initialise PostgreSQL cluster (skip if data directory
+    already exists)
   become: true
   command: "{{ postgresql_bindir }}/{{ postgresql_basename }}-setup initdb"
   args:

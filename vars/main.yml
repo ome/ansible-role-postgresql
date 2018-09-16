@@ -3,9 +3,12 @@
 
 postgresql_external:
   repourl:
-    "9.4": https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-3.noarch.rpm
-    "9.5": https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-3.noarch.rpm
-    "9.6": https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
+    "9.4": "https://download.postgresql.org/pub/repos/yum/9.4/redhat/\
+      rhel-7-x86_64/pgdg-redhat94-9.4-3.noarch.rpm"
+    "9.5": "https://download.postgresql.org/pub/repos/yum/9.5/redhat/\
+      rhel-7-x86_64/pgdg-redhat95-9.5-3.noarch.rpm"
+    "9.6": "https://download.postgresql.org/pub/repos/yum/9.6/redhat/\
+      rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm"
   basename:
     "9.4": postgresql94
     "9.5": postgresql95

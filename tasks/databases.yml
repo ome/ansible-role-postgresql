@@ -4,7 +4,9 @@
 
 - name: postgres | fail if old variable defined
   fail:
-    msg: Variable 'postgresql_users_databases' has been replaced by 'postgresql_databases' and 'postgresql_users'
+    msg: >
+      Variable 'postgresql_users_databases' has been replaced by
+      'postgresql_databases' and 'postgresql_users'
   when: 'postgresql_users_databases | default(False)'
 
 - name: postgres | install ansible prerequisites
