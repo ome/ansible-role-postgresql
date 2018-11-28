@@ -2,7 +2,7 @@
 # Handler for postgresql
 
 - name: restart postgresql
-  become: yes
+  become: true
   service:
     name: postgresql-{{ postgresql_version }}
     state: restarted

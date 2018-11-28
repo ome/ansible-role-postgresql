@@ -1,17 +1,17 @@
-import testinfra.utils.ansible_runner
+import os
 import pytest
+import testinfra.utils.ansible_runner
 import uuid
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '.molecule/ansible_inventory').get_hosts('server')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('server')
 
 CMD = 'env PGPASSWORD=%s psql %s -h localhost -U %s -c "%s" -At'
 
 
-def run(Command, database, sql, name):
+def run(host, database, sql, name):
     password = name + '123'
-    c = Command(CMD % (password, database, name, sql))
-    return c
+    return host.run(CMD % (password, database, name, sql))
 
 
 # Owner and users with SELECT privileges can read
@@ -28,9 +28,9 @@ def run(Command, database, sql, name):
     ('charles', 'secretdb', "regular", False),
     ('charles', 'secretdb', "password", False),
 ])
-def test_select(Command, name, database, table, should_pass):
+def test_select(host, name, database, table, should_pass):
     sql = "SELECT * FROM " + table
-    c = run(Command, database, sql, name)
+    c = run(host, database, sql, name)
     if should_pass:
         assert c.rc == 0
     else:
@@ -51,10 +51,10 @@ def test_select(Command, name, database, table, should_pass):
     ('charles', 'publicdb', True),
     ('charles', 'secretdb', False),
 ])
-def test_create_table(Command, name, database, should_pass):
+def test_create_table(host, name, database, should_pass):
     rnd = 'table_' + str(uuid.uuid4()).replace('-', '')
     sql = "CREATE TABLE %s (text text primary key);" % rnd
-    c = run(Command, database, sql, name)
+    c = run(host, database, sql, name)
     if should_pass:
         assert c.rc == 0
         assert 'CREATE TABLE' in c.stdout
@@ -75,11 +75,11 @@ def test_create_table(Command, name, database, should_pass):
     ('charles', 'secretdb', "regular", False),
     ('charles', 'secretdb', "password", False),
 ])
-def test_modify(Command, name, database, table, should_pass):
+def test_modify(host, name, database, table, should_pass):
     rnd = str(uuid.uuid4())
 
     sql = "insert into %s values ('%s')" % (table, rnd)
-    c = run(Command, database, sql, name)
+    c = run(host, database, sql, name)
     if should_pass:
         assert c.rc == 0
     else:
@@ -87,7 +87,7 @@ def test_modify(Command, name, database, table, should_pass):
         assert 'permission denied' in c.stderr
 
     sql = "delete from %s" % table
-    c = run(Command, database, sql, name)
+    c = run(host, database, sql, name)
     if should_pass:
         assert c.rc == 0
     else:

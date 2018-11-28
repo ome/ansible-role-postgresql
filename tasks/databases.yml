@@ -4,31 +4,33 @@
 
 - name: postgres | fail if old variable defined
   fail:
-    msg: Variable 'postgresql_users_databases' has been replaced by 'postgresql_databases' and 'postgresql_users'
+    msg: >
+      Variable 'postgresql_users_databases' has been replaced by
+      'postgresql_databases' and 'postgresql_users'
   when: 'postgresql_users_databases | default(False)'
 
 - name: postgres | install ansible prerequisites
-  become: yes
+  become: true
   yum:
     name: "{{ item }}"
     state: present
   with_items:
-  - python-psycopg2
+    - python-psycopg2
 
 - name: postgres | create users
-  become: yes
+  become: true
   become_user: postgres
   postgresql_user:
-    encrypted: yes
+    encrypted: true
     name: "{{ item.user }}"
     password: "{{ item.password }}"
     role_attr_flags: "{{ item.roles | default(omit) }}"
     state: present
   with_items:
-  - "{{ postgresql_users }}"
+    - "{{ postgresql_users }}"
 
 - name: postgres | create databases
-  become: yes
+  become: true
   become_user: postgres
   postgresql_db:
     encoding: UTF-8
@@ -36,7 +38,7 @@
     owner: "{{ item.owner | default(omit) }}"
     state: present
   with_items:
-  - "{{ postgresql_databases }}"
+    - "{{ postgresql_databases }}"
 
 # Setting privileges is complicated:
 # - https://stackoverflow.com/a/39029296
@@ -62,7 +64,7 @@
 # privilege for functions; and USAGE privilege for languages."
 
 - name: postgres | revoke default permissions
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ item.name }}"
@@ -72,11 +74,11 @@
     type: database
   when: "item.restrict | default(False)"
   with_items:
-  - "{{ postgresql_databases }}"
+    - "{{ postgresql_databases }}"
 
 # Revoke the default permissions on the public schema
 - name: postgres | revoke default schema permissions
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ item.name }}"
@@ -87,12 +89,12 @@
     type: schema
   when: "item.restrict | default(False)"
   with_items:
-  - "{{ postgresql_databases }}"
+    - "{{ postgresql_databases }}"
 
 # The default public schema is owned by postgres, and since the PUBLIC
 # privileges are revoked we must grant them back to the owner
 - name: postgres | grant database owner public schema privileges
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ item.name }}"
@@ -103,10 +105,10 @@
     type: schema
   when: item.owner is defined
   with_items:
-  - "{{ postgresql_databases }}"
+    - "{{ postgresql_databases }}"
 
 - name: postgres | grant connect privileges
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ item.1 }}"
@@ -115,11 +117,11 @@
     state: present
     type: database
   with_subelements:
-  - "{{ postgresql_users }}"
-  - databases
+    - "{{ postgresql_users }}"
+    - databases
 
 - name: postgres | grant usage privileges on default public schema
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ item.1 }}"
@@ -129,5 +131,5 @@
     state: present
     type: schema
   with_subelements:
-  - "{{ postgresql_users }}"
-  - databases
+    - "{{ postgresql_users }}"
+    - databases
