@@ -46,7 +46,18 @@
     creates: "{{ postgresql_datadir }}/PG_VERSION"
   environment:
     PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
-  when: postgresql_install_server
+  when: postgresql_install_server and postgresql_basename != "postgresql10"
+
+- name: >-
+    postgres | initialise PostgreSQL cluster (skip if data directory
+    already exists)
+  become: true
+  command: "{{ postgresql_bindir }}/postgresql-10-setup initdb"
+  args:
+    creates: "{{ postgresql_datadir }}/PG_VERSION"
+  environment:
+    PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
+  when: postgresql_install_server and postgresql_basename == "postgresql10"
 
 - name: postgres | postgresql config file
   become: true
