@@ -9,10 +9,13 @@ postgresql_external:
       rhel-7-x86_64/pgdg-redhat95-9.5-3.noarch.rpm"
     "9.6": "https://download.postgresql.org/pub/repos/yum/9.6/redhat/\
       rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm"
+    "10": "https://yum.postgresql.org/10/redhat/\
+      rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm"
   basename:
     "9.4": postgresql94
     "9.5": postgresql95
     "9.6": postgresql96
+    "10": postgresql10
 
 # Internal role variables, do not modify
 postgresql_bindir: /usr/pgsql-{{ postgresql_version }}/bin

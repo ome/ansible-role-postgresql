@@ -53,6 +53,12 @@ provisioner:
       postgresql-noserver:
         postgresql_version: "9.6"
         postgresql_install_server: false
+      postgresql-10-localhost:
+        postgresql_version: "10"
+        postgresql_install_extensions: true
+        postgresql_server_conf:
+          shared_preload_libraries: "'pg_stat_statements'"
+          log_filename: "'postgresql-%F.log'"
 scenario:
   name: default
 verifier:
