@@ -21,7 +21,6 @@ def test_databases(host, name, expected_db):
 
 def test_server_listen(host):
     hostname = host.backend.get_hostname()
-    print hostname
     if hostname.startswith('postgresql-10'):
         with host.sudo():
             value = '/var/lib/pgsql/10/data/postgresql.conf'
