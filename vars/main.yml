@@ -17,10 +17,10 @@ postgresql_external:
     "9.6": postgresql96
     "10": postgresql10
   setup:
-    "9.4": postgresql94
-    "9.5": postgresql95
-    "9.6": postgresql96
-    "10": postgresql-10
+    "9.4": postgresql94-setup
+    "9.5": postgresql95-setup
+    "9.6": postgresql96-setup
+    "10": postgresql-10-setup
 
 # Internal role variables, do not modify
 postgresql_bindir: /usr/pgsql-{{ postgresql_version }}/bin
