@@ -6,27 +6,28 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-94-all
+  - name: postgresql-9.4-all
     image: centos/systemd
     image_version: latest
     command: /sbin/init
     privileged: true
     groups:
       - server
-  - name: postgresql-95-localhost
+  - name: postgresql-9.5-localhost
     image: centos/systemd
     image_version: latest
     command: /sbin/init
     privileged: true
     groups:
       - server
-  - name: postgresql-96-localhost
+  - name: postgresql-9.6-localhost
     image: centos/systemd
     image_version: latest
     command: /sbin/init
     privileged: true
     groups:
       - server
+      - extra_options
   - name: postgresql-noserver
     image: centos
     image_version: 7
@@ -37,31 +38,30 @@ platforms:
     privileged: true
     groups:
       - server
+      - extra_options
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-94-all:
+      postgresql-9.4-all:
         postgresql_server_listen: "'*'"
         postgresql_server_auth:
           - database: publicdb
             user: alice
             address: 192.168.1.0/24
-      postgresql-95-localhost:
+      postgresql-9.5-localhost:
         postgresql_version: "9.5"
-      postgresql-96-localhost:
+      postgresql-9.6-localhost:
         postgresql_version: "9.6"
-        postgresql_install_extensions: true
-        postgresql_server_conf:
-          shared_preload_libraries: "'pg_stat_statements'"
-          log_filename: "'postgresql-%F.log'"
       postgresql-noserver:
         postgresql_version: "9.6"
         postgresql_install_server: false
       postgresql-10-localhost:
         postgresql_version: "10"
+    group_vars:
+      extra_options:
         postgresql_install_extensions: true
         postgresql_server_conf:
           shared_preload_libraries: "'pg_stat_statements'"

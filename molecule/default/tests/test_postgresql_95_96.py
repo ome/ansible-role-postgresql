@@ -3,7 +3,7 @@ import os
 import pytest
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-9[56]-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-9.[56]-*')
 
 
 # In postgres 9.5 rolcatupdate was removed and rolbypassrls added
