@@ -21,17 +21,10 @@ def test_databases(host, name, expected_db):
 
 def test_server_listen(host):
     hostname = host.backend.get_hostname()
-
-    if hostname.startswith('postgresql-1'):
-        ver = match('postgresql-(\d+)-\w+', hostname).group(1)
-        with host.sudo():
-            value = '/var/lib/pgsql/%s/data/postgresql.conf' % ver
-            f = host.file(value).content_string
-    else:
-        ver = match('postgresql-(\d)(\d)-\w+', hostname).group(1, 2)
-        with host.sudo():
-            value = '/var/lib/pgsql/%s.%s/data/postgresql.conf' % ver
-            f = host.file(value).content_string
+    ver = match('postgresql-(\d+\.?\d+)-\w+', hostname).group(1)
+    with host.sudo():
+        value = '/var/lib/pgsql/%s/data/postgresql.conf' % ver
+        f = host.file(value).content_string
 
     count_listen_addresses = 0
     for line in f.split('\n'):
@@ -40,7 +33,7 @@ def test_server_listen(host):
             listen_addresses = line
     assert count_listen_addresses == 1
 
-    if hostname == 'postgresql-94-all':
+    if hostname == 'postgresql-9.4-all':
         assert listen_addresses == "listen_addresses = '*'"
     else:
         assert listen_addresses == "listen_addresses = localhost"
