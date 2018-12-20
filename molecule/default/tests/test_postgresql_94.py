@@ -4,7 +4,7 @@ import testinfra.utils.ansible_runner
 import pytest
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-9.4-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-94-*')
 
 
 @pytest.mark.parametrize("name,expected_roles", [
@@ -24,7 +24,7 @@ def test_server_hba(host):
         alice_publicdb = host.file(
             '/var/lib/pgsql/9.4/data/pg_hba.conf').contains(
             '^host publicdb alice 192.168.1.0/24 md5$')
-    if host.backend.get_hostname() == 'postgresql-9.4-all':
+    if host.backend.get_hostname() == 'postgresql-94-all':
         assert alice_publicdb
     else:
         assert not alice_publicdb
