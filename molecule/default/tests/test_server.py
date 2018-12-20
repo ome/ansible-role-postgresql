@@ -2,6 +2,7 @@ import testinfra.utils.ansible_runner
 import os
 import pytest
 from re import match
+from utils import get_version
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('server')
@@ -21,7 +22,7 @@ def test_databases(host, name, expected_db):
 
 def test_server_listen(host):
     hostname = host.backend.get_hostname()
-    ver = match('postgresql-(\d+\.?\d+)-\w+', hostname).group(1)
+    ver = get_version(hostname)
     with host.sudo():
         value = '/var/lib/pgsql/%s/data/postgresql.conf' % ver
         f = host.file(value).content_string
@@ -33,7 +34,7 @@ def test_server_listen(host):
             listen_addresses = line
     assert count_listen_addresses == 1
 
-    if hostname == 'postgresql-9.4-all':
+    if hostname == 'postgresql-94-all':
         assert listen_addresses == "listen_addresses = '*'"
     else:
         assert listen_addresses == "listen_addresses = localhost"

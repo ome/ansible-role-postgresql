@@ -1,7 +1,7 @@
 import os
 import testinfra.utils.ansible_runner
 from datetime import datetime, timedelta
-from re import match
+from utils import get_version
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('extra_options')
@@ -9,7 +9,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_server_additional_config(host):
     hostname = host.backend.get_hostname()
-    ver = match('postgresql-(\d+\.?\d+)-\w+', hostname).group(1)
+    ver = get_version(hostname)
     f = host.file(
         '/var/lib/pgsql/%s/data/postgresql.conf' % ver).content_string
     lines = f.split('\n')
@@ -20,7 +20,7 @@ def test_server_additional_config(host):
 def test_server_log_file_name(host):
     # Check previous day too in case this is run at midnight
     hostname = host.backend.get_hostname()
-    ver = match('postgresql-(\d+\.?\d+)-\w+', hostname).group(1)
+    ver = get_version(hostname)
     date1 = datetime.today()
     date0 = date1 - timedelta(days=1)
     logdir = '/var/lib/pgsql/%s/data/pg_log' % ver
