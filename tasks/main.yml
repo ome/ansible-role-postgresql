@@ -41,7 +41,7 @@
     postgres | initialise PostgreSQL cluster (skip if data directory
     already exists)
   become: true
-  command: "{{ postgresql_bindir }}/{{ postgresql_basename }}-setup initdb"
+  command: "{{ postgresql_bindir }}/{{ postgresql_setupname }} initdb"
   args:
     creates: "{{ postgresql_datadir }}/PG_VERSION"
   environment:
