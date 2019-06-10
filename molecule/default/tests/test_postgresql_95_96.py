@@ -16,5 +16,4 @@ def test_user_roles(host, name, expected_roles):
     with host.sudo('postgres'):
         out = host.check_output('psql postgres -c "%s" -At' % sql)
     # Everything except the UID at the end
-    print out
     assert out.startswith(expected_roles)
