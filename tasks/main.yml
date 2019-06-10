@@ -1,5 +1,5 @@
 ---
-# tasks file for openmicroscopy.postgresql
+# tasks file for ome.postgresql
 
 - name: postgres | setup repository
   become: true

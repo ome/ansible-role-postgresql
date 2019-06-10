@@ -1,5 +1,5 @@
 ---
-# vars file for openmicroscopy.postgresql
+# vars file for ome.postgresql
 
 postgresql_external:
   repourl:

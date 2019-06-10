@@ -1,5 +1,5 @@
 ---
-# defaults file for openmicroscopy.postgresql
+# defaults file for ome.postgresql
 
 # Version of postgres (see vars)
 postgresql_version: "9.4"
