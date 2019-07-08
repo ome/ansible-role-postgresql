@@ -10,20 +10,20 @@
 - name: postgres | install client packages
   become: true
   yum:
-    name: "{{ postgresql_basename }}"
+    name: "{{ postgresql_basename }}{{ postgresql_version_suffix }}"
     state: present
 
 - name: postgres | install server packages
   become: true
   yum:
-    name: "{{ postgresql_basename }}-server"
+    name: "{{ postgresql_basename }}-server{{ postgresql_version_suffix }}"
     state: present
   when: postgresql_install_server
 
 - name: postgres | install extension packages
   become: true
   yum:
-    name: "{{ postgresql_basename }}-contrib"
+    name: "{{ postgresql_basename }}-contrib{{ postgresql_version_suffix }}"
     state: present
   when: postgresql_install_extensions
 

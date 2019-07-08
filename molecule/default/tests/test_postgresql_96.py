@@ -3,7 +3,7 @@ import os
 import pytest
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-9[56]-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-96-*')
 
 
 # In postgres 9.5 rolcatupdate was removed and rolbypassrls added
@@ -17,3 +17,10 @@ def test_user_roles(host, name, expected_roles):
         out = host.check_output('psql postgres -c "%s" -At' % sql)
     # Everything except the UID at the end
     assert out.startswith(expected_roles)
+
+
+def test_full_version(host):
+    out1 = host.check_output('psql --version')
+    assert out1 == 'psql (PostgreSQL) 9.6.13'
+    out2 = host.check_output('/usr/pgsql-9.6/bin/pg_ctl --version')
+    assert out2 == 'pg_ctl (PostgreSQL) 9.6.13'

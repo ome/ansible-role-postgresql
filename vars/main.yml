@@ -28,3 +28,8 @@ postgresql_datadir: /var/lib/pgsql/{{ postgresql_version }}/data
 postgresql_basename: "{{ postgresql_external.basename[postgresql_version] }}"
 postgresql_repourl: "{{ postgresql_external.repourl[postgresql_version] }}"
 postgresql_setupname: "{{ postgresql_external.setup[postgresql_version] }}"
+postgresql_version_suffix: >-
+  {{
+    (postgresql_package_version | length > 0) |
+    ternary('-' + postgresql_package_version, '')
+  }}

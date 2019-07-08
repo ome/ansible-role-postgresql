@@ -13,7 +13,8 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL version: `9.4` (default), `9.5`, `9.6` or `10`
+- `postgresql_version`: The PostgreSQL major version: `9.4` (default), `9.5`, `9.6` or `10`
+- `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`
 - `postgresql_install_server`: If True (default) install and initialise the server (unless already installed and initialised), otherwise only install the client
 - `postgresql_install_extensions`: If `True` install extension (contrib) package, default `False`
 
