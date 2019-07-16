@@ -23,6 +23,10 @@ The following parameters will be ignored if `postgresql_install_server: False`:
   Items should be of the form:
   - `name`: Database name
   - `owner`: Owner role (optional)
+  - `lc_collate`: Collation order (LC_COLLATE) to use in the database, default `en_US.UTF-8`
+  - `lc_ctype`: Character classification (LC_CTYPE) to use in the database, default `en_US.UTF-8`
+  - `encoding`: Encoding of the database, default `UTF-8`
+  - `template`: Template used to create the database, default `template0`
   - `restrict`: If `True` revoke default `PUBLIC` privileges from database and `public` schema, default `False`
 - `postgresql_users`: List of dictionaries of users.
   Items should be of the form:

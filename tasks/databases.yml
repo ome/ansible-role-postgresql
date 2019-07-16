@@ -33,10 +33,13 @@
   become: true
   become_user: postgres
   postgresql_db:
-    encoding: UTF-8
     name: "{{ item.name }}"
     owner: "{{ item.owner | default(omit) }}"
     state: present
+    lc_collate: "{{ item.lc_collate | default('en_US.UTF-8') }}"
+    lc_ctype: "{{ item.lc_ctype | default('en_US.UTF-8') }}"
+    encoding: "{{ item.encoding | default('UTF-8') }}"
+    template: "{{ item.template | default('template0') }}"
   with_items:
     - "{{ postgresql_databases }}"
 
