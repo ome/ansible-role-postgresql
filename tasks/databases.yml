@@ -36,10 +36,10 @@
     name: "{{ item.name }}"
     owner: "{{ item.owner | default(omit) }}"
     state: present
-    lc_collate: "{{ item.lc_collate | default('en_US.UTF-8') }}"
-    lc_ctype: "{{ item.lc_ctype | default('en_US.UTF-8') }}"
+    lc_collate: "{{ item.lc_collate | default(omit) }}"
+    lc_ctype: "{{ item.lc_ctype | default(omit) }}"
     encoding: "{{ item.encoding | default('UTF-8') }}"
-    template: "{{ item.template | default('template0') }}"
+    template: "{{ item.template | default(omit) }}"
   with_items:
     - "{{ postgresql_databases }}"
 
