@@ -2,6 +2,11 @@
 # vars file for ome.postgresql
 
 postgresql_external:
+  repo:
+    "9.4": pgdg94
+    "9.5": pgdg95
+    "9.6": pgdg96
+    "10": pgdg10
   basename:
     "9.4": postgresql94
     "9.5": postgresql95
@@ -19,6 +24,7 @@ postgresql_datadir: /var/lib/pgsql/{{ postgresql_version }}/data
 postgresql_basename: "{{ postgresql_external.basename[postgresql_version] }}"
 postgresql_repourl: "https://download.postgresql.org/pub/repos/yum/reporpms/\
   EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+postgresql_repoid: "{{ postgresql_external.repo[postgresql_version] }}"
 postgresql_setupname: "{{ postgresql_external.setup[postgresql_version] }}"
 postgresql_version_suffix: >-
   {{

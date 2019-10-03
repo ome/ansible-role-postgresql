@@ -14,10 +14,10 @@
   yum:
     name: "{{ item }}"
     state: present
+    disablerepo: "*"
+    enablerepo: "{{ postgresql_repoid }}"
   with_items:
-    # TODO: unpin once a new package has been released fixing compatibility
-    # with all PSQL versions
-    - python2-psycopg2-2.8.3-1.rhel7.x86_64
+    - python2-psycopg2
 
 - name: postgres | create users
   become: true
