@@ -14,8 +14,10 @@
   yum:
     name: "{{ item }}"
     state: present
+    disablerepo: "*"
+    enablerepo: "{{ postgresql_repoid }}"
   with_items:
-    - python-psycopg2
+    - python2-psycopg2
 
 - name: postgres | create users
   become: true
