@@ -38,6 +38,14 @@ platforms:
     groups:
       - server
       - extra_options
+  - name: postgresql-11-localhost
+    image: centos/systemd
+    image_version: latest
+    command: /sbin/init
+    privileged: true
+    groups:
+      - server
+      - extra_options
 provisioner:
   name: ansible
   lint:
