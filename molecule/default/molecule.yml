@@ -60,6 +60,8 @@ provisioner:
         postgresql_install_server: false
       postgresql-10-localhost:
         postgresql_version: "10"
+      postgresql-11-localhost:
+        postgresql_version: "11"
     group_vars:
       extra_options:
         postgresql_install_extensions: true
