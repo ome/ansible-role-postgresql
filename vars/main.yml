@@ -3,19 +3,16 @@
 
 postgresql_external:
   repo:
-    "9.4": pgdg94
     "9.5": pgdg95
     "9.6": pgdg96
     "10": pgdg10
     "11": pgdg11
   basename:
-    "9.4": postgresql94
     "9.5": postgresql95
     "9.6": postgresql96
     "10": postgresql10
     "11": postgresql11
   setup:
-    "9.4": postgresql94-setup
     "9.5": postgresql95-setup
     "9.6": postgresql96-setup
     "10": postgresql-10-setup

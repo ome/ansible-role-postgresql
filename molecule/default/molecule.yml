@@ -6,13 +6,6 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-94-all
-    image: centos/systemd
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    groups:
-      - server
   - name: postgresql-95-localhost
     image: centos/systemd
     image_version: latest
