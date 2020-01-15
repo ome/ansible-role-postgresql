@@ -1,3 +1,11 @@
+# Changes in Version 4
+
+## Summary of breaking changes
+
+- `postgresql_version` is now a required variable. The previous default of "9.4" is no longer supported.
+
+  See [README.md](README.md) for full documentation
+
 # Changes in Version 3
 
 ## Summary of breaking changes
