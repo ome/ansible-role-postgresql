@@ -6,13 +6,6 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-94-all
-    image: centos/systemd
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    groups:
-      - server
   - name: postgresql-95-localhost
     image: centos/systemd
     image_version: latest
@@ -31,6 +24,14 @@ platforms:
   - name: postgresql-noserver
     image: centos:7
   - name: postgresql-10-localhost
+    image: centos/systemd
+    image_version: latest
+    command: /sbin/init
+    privileged: true
+    groups:
+      - server
+      - extra_options
+  - name: postgresql-11-localhost
     image: centos/systemd
     image_version: latest
     command: /sbin/init
@@ -60,6 +61,8 @@ provisioner:
         postgresql_install_server: false
       postgresql-10-localhost:
         postgresql_version: "10"
+      postgresql-11-localhost:
+        postgresql_version: "11"
     group_vars:
       extra_options:
         postgresql_install_extensions: true

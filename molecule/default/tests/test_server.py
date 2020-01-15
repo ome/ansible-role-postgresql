@@ -34,7 +34,4 @@ def test_server_listen(host):
             listen_addresses = line
     assert count_listen_addresses == 1
 
-    if hostname == 'postgresql-94-all':
-        assert listen_addresses == "listen_addresses = '*'"
-    else:
-        assert listen_addresses == "listen_addresses = localhost"
+    assert listen_addresses == "listen_addresses = localhost"

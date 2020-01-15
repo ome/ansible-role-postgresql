@@ -1,9 +1,6 @@
 ---
 # defaults file for ome.postgresql
 
-# Version of postgres (see vars)
-postgresql_version: "9.4"
-
 # Full package version of postgres
 postgresql_package_version: ""
 
