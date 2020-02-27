@@ -20,7 +20,10 @@ postgresql_external:
       "11": postgresql-11-setup
   debian:
     basename:
+      "9.5": ""
+      "9.6": ""
       "10": postgresql-10
+      "11": ""
 
 # Internal role variables, do not modify
 postgresql_dist:
