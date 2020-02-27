@@ -2,32 +2,36 @@
 # vars file for ome.postgresql
 
 postgresql_external:
-  repo:
-    "9.5": pgdg95
-    "9.6": pgdg96
-    "10": pgdg10
-    "11": pgdg11
-  basename:
-    "9.5": postgresql95
-    "9.6": postgresql96
-    "10": postgresql10
-    "11": postgresql11
-  setup:
-    "9.5": postgresql95-setup
-    "9.6": postgresql96-setup
-    "10": postgresql-10-setup
-    "11": postgresql-11-setup
+  redhat:
+    repo:
+      "9.5": pgdg95
+      "9.6": pgdg96
+      "10": pgdg10
+      "11": pgdg11
+    basename:
+      "9.5": postgresql95
+      "9.6": postgresql96
+      "10": postgresql10
+      "11": postgresql11
+    setup:
+      "9.5": postgresql95-setup
+      "9.6": postgresql96-setup
+      "10": postgresql-10-setup
+      "11": postgresql-11-setup
 
 # Internal role variables, do not modify
-postgresql_bindir: /usr/pgsql-{{ postgresql_version }}/bin
-postgresql_datadir: /var/lib/pgsql/{{ postgresql_version }}/data
-postgresql_basename: "{{ postgresql_external.basename[postgresql_version] }}"
-postgresql_repourl: "https://download.postgresql.org/pub/repos/yum/reporpms/\
-  EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
-postgresql_repoid: "{{ postgresql_external.repo[postgresql_version] }}"
-postgresql_setupname: "{{ postgresql_external.setup[postgresql_version] }}"
-postgresql_version_suffix: >-
-  {{
-    (postgresql_package_version | length > 0) |
-    ternary('-' + postgresql_package_version, '')
-  }}
+postgresql_dist:
+  redhat:
+    bindir: /usr/pgsql-{{ postgresql_version }}/bin
+    confdir: /var/lib/pgsql/{{ postgresql_version }}/data
+    datadir: /var/lib/pgsql/{{ postgresql_version }}/data
+    basename: "{{ postgresql_external.redhat.basename[postgresql_version] }}"
+    repourl: "https://download.postgresql.org/pub/repos/yum/reporpms/\
+      EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+    repoid: "{{ postgresql_external.redhat.repo[postgresql_version] }}"
+    setupname: "{{ postgresql_external.redhat.setup[postgresql_version] }}"
+    version_suffix: >-
+      {{
+        (postgresql_package_version | length > 0) |
+        ternary('-' + postgresql_package_version, '')
+      }}

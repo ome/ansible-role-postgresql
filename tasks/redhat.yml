@@ -1,0 +1,45 @@
+---
+# tasks file for ome.postgresql
+
+- name: postgres | setup repository
+  become: true
+  yum:
+    name: "{{ postgresql_dist.redhat.repourl }}"
+    state: present
+
+- name: postgres | install client packages
+  become: true
+  yum:
+    name: >-
+      {{ postgresql_dist.redhat.basename }}{{
+         postgresql_dist.redhat.version_suffix }}
+    state: present
+
+- name: postgres | install server packages
+  become: true
+  yum:
+    name: >-
+      {{ postgresql_dist.redhat.basename }}-server{{
+         postgresql_dist.redhat.version_suffix }}
+    state: present
+  when: postgresql_install_server
+
+- name: postgres | install extension packages
+  become: true
+  yum:
+    name: >-
+      {{ postgresql_dist.redhat.basename }}-contrib{{
+         postgresql_dist.redhat.version_suffix }}
+    state: present
+  when: postgresql_install_extensions
+
+- name: postgres | install ansible prerequisites
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: present
+    disablerepo: "*"
+    enablerepo: "{{ postgresql_dist.redhat.repoid }}"
+  with_items:
+    - python2-psycopg2
+  when: postgresql_install_server
