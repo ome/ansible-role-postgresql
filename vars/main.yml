@@ -18,20 +18,32 @@ postgresql_external:
       "9.6": postgresql96-setup
       "10": postgresql-10-setup
       "11": postgresql-11-setup
+  debian:
+    basename:
+      "10": postgresql-10
 
 # Internal role variables, do not modify
 postgresql_dist:
   redhat:
     bindir: /usr/pgsql-{{ postgresql_version }}/bin
     confdir: /var/lib/pgsql/{{ postgresql_version }}/data
+    conf_postgresql_src: postgresql-conf.j2
     datadir: /var/lib/pgsql/{{ postgresql_version }}/data
     basename: "{{ postgresql_external.redhat.basename[postgresql_version] }}"
     repourl: "https://download.postgresql.org/pub/repos/yum/reporpms/\
       EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
     repoid: "{{ postgresql_external.redhat.repo[postgresql_version] }}"
     setupname: "{{ postgresql_external.redhat.setup[postgresql_version] }}"
+    service: postgresql-{{ postgresql_version }}
     version_suffix: >-
       {{
         (postgresql_package_version | length > 0) |
         ternary('-' + postgresql_package_version, '')
       }}
+  debian:
+    bindir: /usr/lib/postgresql/{{ postgresql_version }}/bin
+    confdir: /etc/postgresql/{{ postgresql_version }}/main
+    conf_postgresql_src: postgresql-conf-10-ubuntu.j2
+    datadir: /var/lib/postgresql/{{ postgresql_version }}/main
+    basename: "{{ postgresql_external.debian.basename[postgresql_version] }}"
+    service: postgresql

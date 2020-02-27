@@ -69,8 +69,10 @@ provisioner:
         postgresql_server_conf:
           shared_preload_libraries: "'pg_stat_statements'"
           log_filename: "'postgresql-%F.log'"
+  playbooks:
+    converge: ../resources/playbook.yml
 scenario:
-  name: default
+  name: centos7
 verifier:
   name: testinfra
   lint:

@@ -4,6 +4,9 @@
 - import_tasks: redhat.yml
   when: ansible_os_family | lower == 'redhat'
 
+- import_tasks: debian.yml
+  when: ansible_os_family | lower == 'debian'
+
 - import_tasks: initialise.yml
   when: postgresql_install_server
 

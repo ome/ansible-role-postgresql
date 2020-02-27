@@ -31,7 +31,7 @@
   template:
     dest: >-
       {{ postgresql_dist[ansible_os_family | lower].confdir }}/postgresql.conf
-    src: postgresql-conf.j2
+    src: "{{ postgresql_dist[ansible_os_family | lower].conf_postgresql_src }}"
   notify:
     - restart postgresql
 
@@ -48,5 +48,5 @@
   become: true
   service:
     enabled: true
-    name: postgresql-{{ postgresql_version }}
+    name: "{{ postgresql_dist[ansible_os_family | lower].service }}"
     state: started

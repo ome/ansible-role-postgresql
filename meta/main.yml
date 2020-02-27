@@ -9,6 +9,9 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+    - name: Ubuntu
+      versions:
+        - bionic
   role_name: postgresql
   galaxy_tags: ['postgresql', 'database']
 

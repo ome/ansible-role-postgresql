@@ -4,8 +4,14 @@ Postgresql
 [![Build Status](https://travis-ci.org/ome/ansible-role-postgresql.svg)](https://travis-ci.org/ome/ansible-role-postgresql)
 [![Ansible Role](https://img.shields.io/ansible/role/41080.svg)](https://galaxy.ansible.com/ome/postgresql/)
 
-Install upstream PostgreSQL server.
+Install PostgreSQL server and clients.
+
+The upstream PostgreSQL package is installed on CentOS due to the extended period between releases.
+The distribution version is installed on Ubuntu since LTS releases occur every two years.
 Optionally creates users and databases.
+
+Note Ubuntu 18.04 defaults to Python 3.
+You may need to set `ansible_python_interpreter: /usr/bin/python3` if Ansible doesn't detect the correct version.
 
 
 Role Variables
@@ -13,8 +19,8 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `9.5`, `9.6`, `10` or `11`
-- `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`
+- `postgresql_version`: The PostgreSQL major version: `9.5`, `9.6`, `10`, `11`, on Ubuntu 18.04 only `10` is supported
+- `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 - `postgresql_install_server`: If True (default) install and initialise the server (unless already installed and initialised), otherwise only install the client
 - `postgresql_install_extensions`: If `True` install extension (contrib) package, default `False`
 

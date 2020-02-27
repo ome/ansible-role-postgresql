@@ -9,8 +9,8 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 @pytest.mark.parametrize("name,expected_db", [
-    ('publicdb', 'publicdb|en_US.UTF-8|en_US.UTF-8'),
-    ('secretdb', 'secretdb|en_US.UTF-8|en_US.UTF-8')
+    ('publicdb', 'publicdb|C.UTF-8|C.UTF-8'),
+    ('secretdb', 'secretdb|C.UTF-8|C.UTF-8')
 ])
 def test_databases(host, name, expected_db):
     sql = ("SELECT datname,datcollate,datctype FROM pg_database "
@@ -24,12 +24,12 @@ def test_server_listen(host):
     hostname = host.backend.get_hostname()
     ver = get_version(hostname)
     with host.sudo():
-        value = '/var/lib/pgsql/%s/data/postgresql.conf' % ver
+        value = '/etc/postgresql/%s/main/postgresql.conf' % ver
         f = host.file(value).content_string
 
     count_listen_addresses = 0
     for line in f.split('\n'):
-        if match('\s*listen_addresses', line):
+        if match(r'\s*listen_addresses', line):
             count_listen_addresses += 1
             listen_addresses = line
     assert count_listen_addresses == 1

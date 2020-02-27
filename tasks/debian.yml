@@ -1,0 +1,16 @@
+---
+# tasks file for ome.postgresql ubuntu
+
+- name: postgres | install packages
+  become: true
+  apt:
+    name: >-
+      {{ postgresql_dist.debian.basename }}
+    state: present
+
+- name: postgres | install ansible prerequisites
+  become: true
+  apt:
+    name: python3-psycopg2
+    state: present
+  when: postgresql_install_server
