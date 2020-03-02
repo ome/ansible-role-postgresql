@@ -11,6 +11,10 @@
 - name: postgres | install ansible prerequisites
   become: true
   apt:
-    name: python3-psycopg2
+    # Needs to match the Ansible interpreter
+    name: >-
+      python{{
+        ansible_python_version is version('3.0.0', '<') | ternary('', '3')
+      }}-psycopg2
     state: present
   when: postgresql_install_server
