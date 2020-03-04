@@ -17,4 +17,3 @@
         ansible_python_version is version('3.0.0', '<') | ternary('', '3')
       }}-psycopg2
     state: present
-  when: postgresql_install_server

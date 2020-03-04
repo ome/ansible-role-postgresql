@@ -21,7 +21,7 @@
           password: charles123
           databases: []
 
-- hosts: server
+- hosts: all
   tasks:
     - name: create test tables publicdb
       command: >

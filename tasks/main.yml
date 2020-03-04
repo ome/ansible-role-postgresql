@@ -8,7 +8,5 @@
   when: ansible_os_family | lower == 'debian'
 
 - import_tasks: initialise.yml
-  when: postgresql_install_server
 
 - import_tasks: databases.yml
-  when: postgresql_install_server
