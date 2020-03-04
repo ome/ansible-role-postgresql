@@ -17,7 +17,7 @@ platforms:
     groups:
       - server
       - extra_options
-  - name: postgresql-12-localhost
+  - name: postgresql-11-localhost
     image: leandelivery/docker-systemd:ubuntu-18.04
     command: /sbin/init
     privileged: true
@@ -34,8 +34,8 @@ provisioner:
       postgresql-10-localhost:
         postgresql_version: "10"
         ansible_python_interpreter: /usr/bin/python3
-      postgresql-12-localhost:
-        postgresql_version: "12"
+      postgresql-11-localhost:
+        postgresql_version: "11"
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
       extra_options:

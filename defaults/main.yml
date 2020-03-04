@@ -38,6 +38,8 @@ postgresql_server_chown_datadir: false
 ######################################################################
 # Internal role variables, do not modify
 ######################################################################
+
+# Uses postgresql_distribution_redhat from ome.postgresql_client
 postgresql_dist:
   redhat:
     bindir: /usr/pgsql-{{ postgresql_version }}/bin

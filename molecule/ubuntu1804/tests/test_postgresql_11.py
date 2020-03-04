@@ -3,7 +3,7 @@ import os
 import pytest
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-12-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-11-*')
 
 
 @pytest.mark.parametrize("name,expected_roles", [
@@ -20,4 +20,4 @@ def test_user_roles(host, name, expected_roles):
 
 def test_version(host):
     out1 = host.check_output('psql --version')
-    assert out1.startswith('psql (PostgreSQL) 12.')
+    assert out1.startswith('psql (PostgreSQL) 11.')
