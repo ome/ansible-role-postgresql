@@ -1,6 +1,8 @@
 ---
 dependency:
   name: galaxy
+  options:
+    role-file: molecule/resources/requirements.yml
 driver:
   name: docker
 lint:
@@ -15,6 +17,14 @@ platforms:
     groups:
       - server
       - extra_options
+  - name: postgresql-12-localhost
+    image: leandelivery/docker-systemd:ubuntu-18.04
+    command: /sbin/init
+    privileged: true
+    tmpfs:
+      - /sys/fs/cgroup
+    groups:
+      - server
 provisioner:
   name: ansible
   lint:
@@ -23,6 +33,9 @@ provisioner:
     host_vars:
       postgresql-10-localhost:
         postgresql_version: "10"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-12-localhost:
+        postgresql_version: "12"
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
       extra_options:

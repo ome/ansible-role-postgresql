@@ -7,14 +7,6 @@
     name: "{{ postgresql_dist.redhat.repourl }}"
     state: present
 
-- name: postgres | install client packages
-  become: true
-  yum:
-    name: >-
-      {{ postgresql_dist.redhat.basename }}{{
-         postgresql_dist.redhat.version_suffix }}
-    state: present
-
 - name: postgres | install server packages
   become: true
   yum:

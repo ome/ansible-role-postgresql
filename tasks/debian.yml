@@ -5,7 +5,7 @@
   become: true
   apt:
     name: >-
-      {{ postgresql_dist.debian.basename }}
+      {{ postgresql_dist.debian.basename }}-{{ postgresql_version }}
     state: present
 
 - name: postgres | install ansible prerequisites
