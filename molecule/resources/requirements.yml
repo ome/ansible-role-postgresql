@@ -1,4 +1,2 @@
 ---
-- name: ome.postgresql_client
-  src:
-    https://github.com/manics/ansible-role-postgresql-client/archive/10d6b6858ec3614f83301040b5c9f29a3360da29.tar.gz
+- src: ome.postgresql_client
