@@ -7,7 +7,7 @@ Postgresql
 Install upstream PostgreSQL server.
 
 Optionally creates users and databases.
-If you wish to use your distributions packages do not use this role.
+If you wish to use your distribution's packages then do not use this role.
 
 
 Role Variables
