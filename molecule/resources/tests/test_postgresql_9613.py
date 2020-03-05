@@ -2,7 +2,7 @@ import testinfra.utils.ansible_runner
 import os
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-96-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-96-c7')
 
 
 def test_full_version(host):

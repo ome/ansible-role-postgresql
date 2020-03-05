@@ -8,13 +8,13 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-96-localhost
+  - name: postgresql-96-u1804
     image: leandelivery/docker-systemd:ubuntu-18.04
     command: /sbin/init
     privileged: true
     tmpfs:
       - /sys/fs/cgroup
-  - name: postgresql-10-localhost
+  - name: postgresql-10-u1804
     image: leandelivery/docker-systemd:ubuntu-18.04
     command: /sbin/init
     privileged: true
@@ -22,7 +22,7 @@ platforms:
       - /sys/fs/cgroup
     groups:
       - extra_options
-  - name: postgresql-11-localhost
+  - name: postgresql-11-u1804
     image: leandelivery/docker-systemd:ubuntu-18.04
     command: /sbin/init
     privileged: true
@@ -34,12 +34,12 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-96-localhost:
+      postgresql-96-u1804:
         postgresql_version: "9.6"
-      postgresql-10-localhost:
+      postgresql-10-u1804:
         postgresql_version: "10"
         ansible_python_interpreter: /usr/bin/python3
-      postgresql-11-localhost:
+      postgresql-11-u1804:
         postgresql_version: "11"
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
@@ -53,5 +53,6 @@ scenario:
   name: ubuntu1804
 verifier:
   name: testinfra
+  directory: ../resources/tests/
   lint:
     name: flake8

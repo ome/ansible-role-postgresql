@@ -3,31 +3,41 @@ import pytest
 import testinfra.utils.ansible_runner
 import uuid
 from re import match
-from utils import get_version
+from utils import get_distribution, get_version
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('postgresql-10-*')
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
 # Server
 
 @pytest.mark.parametrize("name,expected_db", [
-    ('publicdb', 'publicdb|C.UTF-8|C.UTF-8'),
-    ('secretdb', 'secretdb|C.UTF-8|C.UTF-8')
+    ('publicdb', 'publicdb|{lang}.UTF-8|{lang}.UTF-8'),
+    ('secretdb', 'secretdb|{lang}.UTF-8|{lang}.UTF-8')
 ])
 def test_databases(host, name, expected_db):
+    hostname = host.backend.get_hostname()
     sql = ("SELECT datname,datcollate,datctype FROM pg_database "
            "WHERE datname='%s'" % name)
     with host.sudo('postgres'):
         out = host.check_output('psql postgres -c "%s" -At' % sql)
-    assert out == expected_db
+
+    if get_distribution(hostname) == 'centos':
+        lang = 'en_US'
+    else:
+        lang = 'C'
+    assert out == expected_db.format(lang=lang)
 
 
 def test_server_listen(host):
     hostname = host.backend.get_hostname()
-    ver = get_version(hostname)
+    version = get_version(hostname)
+    if get_distribution(hostname) == 'centos':
+        configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
+    else:
+        configfile = '/etc/postgresql/{version}/main/postgresql.conf'
     with host.sudo():
-        value = '/etc/postgresql/%s/main/postgresql.conf' % ver
+        value = configfile.format(version=version)
         f = host.file(value).content_string
 
     count_listen_addresses = 0
