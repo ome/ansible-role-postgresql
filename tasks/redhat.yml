@@ -1,12 +1,6 @@
 ---
 # tasks file for ome.postgresql centos
 
-- name: postgres | setup repository
-  become: true
-  yum:
-    name: "{{ postgresql_dist.redhat.repourl }}"
-    state: present
-
 - name: postgres | install server packages
   become: true
   yum:
