@@ -1,5 +1,5 @@
 ---
-# tasks file for ome.postgresql
+# tasks file for ome.postgresql centos
 
 - name: postgres | setup repository
   become: true

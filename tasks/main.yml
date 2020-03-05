@@ -1,5 +1,5 @@
 ---
-# tasks file for roles/nginx
+# tasks file for ome.postgresql
 
 - import_tasks: redhat.yml
   when: ansible_os_family | lower == 'redhat'
