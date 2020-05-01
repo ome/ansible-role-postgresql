@@ -1,0 +1,30 @@
+---
+# tasks file for ome.postgresql centos
+
+- name: postgres | install server packages
+  become: true
+  yum:
+    name: >-
+      {{ postgresql_dist.redhat.basename }}-server{{
+         postgresql_dist.redhat.version_suffix }}
+    state: present
+
+- name: postgres | install extension packages
+  become: true
+  yum:
+    name: >-
+      {{ postgresql_dist.redhat.basename }}-contrib{{
+         postgresql_dist.redhat.version_suffix }}
+    state: present
+
+- name: postgres | install ansible prerequisites
+  become: true
+  yum:
+    # Needs to match the Ansible interpreter
+    name: >-
+      python{{
+        ansible_python_version is version('3.0.0', '<') | ternary('2', '3')
+      }}-psycopg2
+    state: present
+    disablerepo: "*"
+    enablerepo: "{{ postgresql_dist.redhat.repoid }}"

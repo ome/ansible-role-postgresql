@@ -9,7 +9,11 @@ install:
   - pip install "ome-ansible-molecule<0.5"
 
 script:
-  - molecule test
+  - molecule test -s $SCENARIO
+
+env:
+  - SCENARIO=centos7
+  - SCENARIO=ubuntu1804
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

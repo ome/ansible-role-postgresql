@@ -1,43 +1,31 @@
 ---
 dependency:
   name: galaxy
+  options:
+    role-file: molecule/resources/requirements.yml
 driver:
   name: docker
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-95-localhost
+  - name: postgresql-96-c7
     image: centos/systemd
     image_version: latest
     command: /sbin/init
     privileged: true
     groups:
-      - server
-  - name: postgresql-96-localhost
-    image: centos/systemd
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    groups:
-      - server
       - extra_options
-  - name: postgresql-noserver
-    image: centos:7
-  - name: postgresql-10-localhost
+  - name: postgresql-10-c7
+    image: centos/systemd
+    image_version: latest
+    command: /sbin/init
+    privileged: true
+  - name: postgresql-11-c7
     image: centos/systemd
     image_version: latest
     command: /sbin/init
     privileged: true
     groups:
-      - server
-      - extra_options
-  - name: postgresql-11-localhost
-    image: centos/systemd
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    groups:
-      - server
       - extra_options
 provisioner:
   name: ansible
@@ -45,33 +33,24 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-94-all:
-        postgresql_server_listen: "'*'"
-        postgresql_server_auth:
-          - database: publicdb
-            user: alice
-            address: 192.168.1.0/24
-      postgresql-95-localhost:
-        postgresql_version: "9.5"
-      postgresql-96-localhost:
+      postgresql-96-c7:
         postgresql_version: "9.6"
         postgresql_package_version: "9.6.13"
-      postgresql-noserver:
-        postgresql_version: "9.6"
-        postgresql_install_server: false
-      postgresql-10-localhost:
+      postgresql-10-c7:
         postgresql_version: "10"
-      postgresql-11-localhost:
+      postgresql-11-c7:
         postgresql_version: "11"
     group_vars:
       extra_options:
-        postgresql_install_extensions: true
         postgresql_server_conf:
           shared_preload_libraries: "'pg_stat_statements'"
           log_filename: "'postgresql-%F.log'"
+  playbooks:
+    converge: ../resources/playbook.yml
 scenario:
-  name: default
+  name: centos7
 verifier:
   name: testinfra
+  directory: ../resources/tests/
   lint:
     name: flake8

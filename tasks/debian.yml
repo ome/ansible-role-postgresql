@@ -1,0 +1,19 @@
+---
+# tasks file for ome.postgresql ubuntu
+
+- name: postgres | install packages
+  become: true
+  apt:
+    name: >-
+      {{ postgresql_dist.debian.basename }}
+    state: present
+
+- name: postgres | install ansible prerequisites
+  become: true
+  apt:
+    # Needs to match the Ansible interpreter
+    name: >-
+      python{{
+        ansible_python_version is version('3.0.0', '<') | ternary('', '3')
+      }}-psycopg2
+    state: present

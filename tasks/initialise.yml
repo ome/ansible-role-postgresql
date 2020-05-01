@@ -1,0 +1,52 @@
+---
+# tasks file for ome.postgresql
+
+- name: postgres | set permissions on data directory
+  become: true
+  file:
+    owner: postgres
+    group: postgres
+    path: "{{ postgresql_dist[ansible_os_family | lower].datadir }}"
+    recurse: true
+    state: directory
+  when: postgresql_server_chown_datadir
+
+- name: >-
+    postgres | initialise PostgreSQL cluster (skip if data directory
+    already exists)
+  become: true
+  command: >-
+    {{ postgresql_dist[ansible_os_family | lower].bindir }}/{{
+       postgresql_dist.redhat.setupname }}
+    initdb
+  args:
+    creates: >-
+      {{ postgresql_dist[ansible_os_family | lower].datadir }}/PG_VERSION
+  environment:
+    PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
+
+- name: postgres | postgresql config file
+  become: true
+  become_user: postgres
+  template:
+    dest: >-
+      {{ postgresql_dist[ansible_os_family | lower].confdir }}/postgresql.conf
+    src: "{{ postgresql_dist[ansible_os_family | lower].conf_postgresql_src }}"
+  notify:
+    - restart postgresql
+
+- name: postgres | configure client authorisation
+  become: true
+  become_user: postgres
+  template:
+    dest: "{{ postgresql_dist[ansible_os_family | lower].confdir }}/pg_hba.conf"
+    src: pg_hba-conf.j2
+  notify:
+    - restart postgresql
+
+- name: postgres | start service
+  become: true
+  service:
+    enabled: true
+    name: "{{ postgresql_dist[ansible_os_family | lower].service }}"
+    state: started

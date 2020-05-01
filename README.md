@@ -5,7 +5,9 @@ Postgresql
 [![Ansible Role](https://img.shields.io/ansible/role/41080.svg)](https://galaxy.ansible.com/ome/postgresql/)
 
 Install upstream PostgreSQL server.
+
 Optionally creates users and databases.
+If you wish to use your distribution's packages then do not use this role.
 
 
 Role Variables
@@ -13,10 +15,8 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `9.5`, `9.6`, `10` or `11`
-- `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`
-- `postgresql_install_server`: If True (default) install and initialise the server (unless already installed and initialised), otherwise only install the client
-- `postgresql_install_extensions`: If `True` install extension (contrib) package, default `False`
+- `postgresql_version`: The PostgreSQL major version: `9.6`, `10`, `11`
+- `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 
 The following parameters will be ignored if `postgresql_install_server: False`:
 - `postgresql_databases`: List of dictionaries of databases.
