@@ -27,6 +27,13 @@ platforms:
     privileged: true
     groups:
       - extra_options
+  - name: postgresql-12-c7
+    image: centos/systemd
+    image_version: latest
+    command: /sbin/init
+    privileged: true
+    groups:
+      - extra_options
 provisioner:
   name: ansible
   lint:
