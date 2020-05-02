@@ -15,7 +15,7 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `9.6`, `10`, `11`
+- `postgresql_version`: The PostgreSQL major version: `9.6`, `10`, `11`, `12`
 - `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 
 The following parameters will be ignored if `postgresql_install_server: False`:
