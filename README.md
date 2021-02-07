@@ -1,7 +1,7 @@
 Postgresql
 ==========
 
-[![Build Status](https://travis-ci.org/ome/ansible-role-postgresql.svg)](https://travis-ci.org/ome/ansible-role-postgresql)
+[![Actions Status](https://github.com/ome/ansible-role-postgresql/workflows/Molecule/badge.svg)](https://github.com/ome/ansible-role-postgresql/actions)
 [![Ansible Role](https://img.shields.io/ansible/role/41080.svg)](https://galaxy.ansible.com/ome/postgresql/)
 
 Install upstream PostgreSQL server.
