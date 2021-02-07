@@ -7,8 +7,8 @@
     owner: postgres
     group: postgres
     path: "{{ postgresql_dist[ansible_os_family | lower].datadir }}"
-    recurse: true
     state: directory
+    mode: 0700
   when: postgresql_server_chown_datadir
 
 - name: >-
@@ -32,6 +32,7 @@
     dest: >-
       {{ postgresql_dist[ansible_os_family | lower].confdir }}/postgresql.conf
     src: "{{ postgresql_dist[ansible_os_family | lower].conf_postgresql_src }}"
+    mode: 0640
   notify:
     - restart postgresql
 
@@ -41,6 +42,7 @@
   template:
     dest: "{{ postgresql_dist[ansible_os_family | lower].confdir }}/pg_hba.conf"
     src: pg_hba-conf.j2
+    mode: 0640
   notify:
     - restart postgresql
 
