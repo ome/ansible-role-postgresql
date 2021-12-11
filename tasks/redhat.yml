@@ -5,16 +5,16 @@
   become: true
   yum:
     name: >-
-      {{ postgresql_dist.redhat.basename }}-server{{
-         postgresql_dist.redhat.version_suffix }}
+      {{ postgresql_dist_redhat.basename }}-server{{
+         postgresql_dist_redhat.version_suffix }}
     state: present
 
 - name: postgres | install extension packages
   become: true
   yum:
     name: >-
-      {{ postgresql_dist.redhat.basename }}-contrib{{
-         postgresql_dist.redhat.version_suffix }}
+      {{ postgresql_dist_redhat.basename }}-contrib{{
+         postgresql_dist_redhat.version_suffix }}
     state: present
 
 - name: postgres | install ansible prerequisites
@@ -27,4 +27,16 @@
       }}-psycopg2
     state: present
     disablerepo: "*"
-    enablerepo: "{{ postgresql_dist.redhat.repoid }}"
+    enablerepo: "{{ postgresql_dist_redhat.repoid }}"
+
+- name: postgres | set redhat dist variables
+  set_fact:
+    postgresql_dist_datadir: "{{ postgresql_dist_redhat.datadir }}"
+    postgresql_dist_bindir: "{{ postgresql_dist_redhat.bindir }}"
+    postgresql_dist_confdir: "{{ postgresql_dist_redhat.confdir }}"
+    postgresql_dist_setup: >-
+      {{ postgresql_dist_redhat.bindir }}/{{ postgresql_dist_redhat.setupname }}
+      initdb
+    postgresql_dist_service: "{{ postgresql_dist_redhat.service }}"
+    postgresql_dist_conf_postgresql_src: >-
+      {{ postgresql_dist_redhat.conf_postgresql_src }}

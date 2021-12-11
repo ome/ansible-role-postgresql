@@ -1,54 +1,51 @@
 ---
 # tasks file for ome.postgresql
 
-- name: postgres | set permissions on data directory
-  become: true
-  file:
-    owner: postgres
-    group: postgres
-    path: "{{ postgresql_dist[ansible_os_family | lower].datadir }}"
-    state: directory
-    mode: 0700
-  when: postgresql_server_chown_datadir
+- block:
+    - name: postgres | set permissions on data directory
+      file:
+        owner: postgres
+        group: postgres
+        path: "{{ postgresql_dist_datadir }}"
+        state: directory
+        mode: 0700
+      when: postgresql_server_chown_datadir
 
-- name: >-
-    postgres | initialise PostgreSQL cluster (skip if data directory
-    already exists)
-  become: true
-  command: >-
-    {{ postgresql_dist[ansible_os_family | lower].bindir }}/{{
-       postgresql_dist.redhat.setupname }}
-    initdb
-  args:
-    creates: >-
-      {{ postgresql_dist[ansible_os_family | lower].datadir }}/PG_VERSION
-  environment:
-    PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
+    - name: >-
+        postgres | initialise PostgreSQL cluster (skip if data directory
+        already exists)
+      command: "{{ postgresql_dist_setup }}"
+      args:
+        creates: "{{ postgresql_dist_datadir }}/PG_VERSION"
 
-- name: postgres | postgresql config file
-  become: true
-  become_user: postgres
-  template:
-    dest: >-
-      {{ postgresql_dist[ansible_os_family | lower].confdir }}/postgresql.conf
-    src: "{{ postgresql_dist[ansible_os_family | lower].conf_postgresql_src }}"
-    mode: 0644
-  notify:
-    - restart postgresql
+      environment:
+        PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
 
-- name: postgres | configure client authorisation
-  become: true
-  become_user: postgres
-  template:
-    dest: "{{ postgresql_dist[ansible_os_family | lower].confdir }}/pg_hba.conf"
-    src: pg_hba-conf.j2
-    mode: 0640
-  notify:
-    - restart postgresql
+    - name: postgres | postgresql config file
+      template:
+        dest: >-
+          {{ postgresql_dist_confdir }}/postgresql.conf
+        src: "{{ postgresql_dist_conf_postgresql_src }}"
+        mode: 0644
+      notify:
+        - restart postgresql
 
-- name: postgres | start service
+      become_user: "{{ postgresql_become_user }}"
+
+    - name: postgres | configure client authorisation
+      template:
+        dest: "{{ postgresql_dist_confdir }}/pg_hba.conf"
+        src: pg_hba-conf.j2
+        mode: 0640
+      notify:
+        - restart postgresql
+
+      become_user: "{{ postgresql_become_user }}"
+
+    - name: postgres | start service
+      service:
+        enabled: true
+        name: "{{ postgresql_dist_service }}"
+        state: started
+
   become: true
-  service:
-    enabled: true
-    name: "{{ postgresql_dist[ansible_os_family | lower].service }}"
-    state: started

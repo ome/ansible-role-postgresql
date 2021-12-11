@@ -5,7 +5,7 @@
   become: true
   apt:
     name: >-
-      {{ postgresql_dist.debian.basename }}
+      {{ postgresql_dist_debian.basename }}
     state: present
 
 - name: postgres | install ansible prerequisites
@@ -17,3 +17,13 @@
         ansible_python_version is version('3.0.0', '<') | ternary('', '3')
       }}-psycopg2
     state: present
+
+- name: postgres | set debian dist variables
+  set_fact:
+    postgresql_dist_datadir: "{{ postgresql_dist_debian.datadir }}"
+    postgresql_dist_bindir: "{{ postgresql_dist_debian.bindir }}"
+    postgresql_dist_confdir: "{{ postgresql_dist_debian.confdir }}"
+    postgresql_dist_setup: "{{ postgresql_dist_debian.bindir }}/initdb"
+    postgresql_dist_service: "{{ postgresql_dist_debian.service }}"
+    postgresql_dist_conf_postgresql_src: >-
+      {{ postgresql_dist_debian.conf_postgresql_src }}
