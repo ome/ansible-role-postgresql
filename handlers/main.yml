@@ -4,5 +4,5 @@
 - name: restart postgresql
   become: true
   service:
-    name: "{{ postgresql_dist[ansible_os_family | lower].service }}"
+    name: "{{ postgresql_dist_service }}"
     state: restarted
