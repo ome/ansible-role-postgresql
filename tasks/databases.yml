@@ -30,17 +30,17 @@
 
     # From https://www.postgresql.org/docs/9.6/static/sql-grant.html:
     #
-    # "The key word PUBLIC indicates that the privileges are to be granted to all
-    # roles, including those that might be created later. PUBLIC can be thought of
-    # as an implicitly defined group that always includes all roles. Any
-    # particular role will have the sum of privileges granted directly to it,
-    # privileges granted to any role it is presently a member of, and privileges
-    # granted to PUBLIC."
+    # "The key word PUBLIC indicates that the privileges are to be granted to
+    # all roles, including those that might be created later. PUBLIC can be
+    # thought of as an implicitly defined group that always includes all roles.
+    # Any particular role will have the sum of privileges granted directly to
+    # it, privileges granted to any role it is presently a member of, and
+    # privileges granted to PUBLIC."
     #
     # "There is no need to grant privileges to the owner of an object (usually
-    # the user that created it), as the owner has all privileges by default. (The
-    # owner could, however, choose to revoke some of their own privileges for
-    # safety.)"
+    # the user that created it), as the owner has all privileges by default.
+    # (The owner could, however, choose to revoke some of their own privileges
+    # for safety.)"
     #
     # "PostgreSQL grants default privileges on some types of objects to PUBLIC.
     # No privileges are granted to PUBLIC by default on tables, columns, schemas

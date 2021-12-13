@@ -19,7 +19,8 @@
         creates: "{{ postgresql_dist_datadir }}/PG_VERSION"
 
       environment:
-        PGSETUP_INITDB_OPTIONS: --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
+        PGSETUP_INITDB_OPTIONS: >-
+          --encoding=UTF8 --locale=en_US.UTF-8 --auth-host=md5
 
     - name: postgres | postgresql config file
       template:
