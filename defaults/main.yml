@@ -35,7 +35,11 @@ postgresql_server_chown_datadir: false
 # Internal role variables, do not modify
 ######################################################################
 
-# Uses postgresql_distribution_redhat from ome.postgresql_client
+# Attributes are parsed and used to set facts at tasks/redhat.yml.
+# Overriding the default values allow to configure future versions of
+# PostgreSQL, e.g. different paths according to the version, config, etc.
+# NOTE: Default values rely on variable postgresql_distribution_redhat, which is
+# by default set at ome.postgresql_client.
 postgresql_dist_redhat:
   bindir: /usr/pgsql-{{ postgresql_version }}/bin
   confdir: /var/lib/pgsql/{{ postgresql_version }}/data
@@ -52,6 +56,8 @@ postgresql_dist_redhat:
       ternary('-' + postgresql_package_version, '')
     }}
 
+# Attributes are parsed and used to set facts at tasks/debian.yml.
+# Debian variation, following the same principles of postgresql_dist_redhat
 postgresql_dist_debian:
   bindir: /usr/lib/postgresql/{{ postgresql_version }}/bin
   confdir: /etc/postgresql/{{ postgresql_version }}/main
