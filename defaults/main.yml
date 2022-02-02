@@ -7,6 +7,9 @@
 # Full package version of postgres, see ome.postgresql_client
 # postgresql_package_version
 
+# OS system user to become when become_user: <USER> is defined
+postgresql_become_user: postgres
+
 # List of dictionaries of databases
 postgresql_databases: []
 
@@ -28,32 +31,37 @@ postgresql_server_auth: []
 # Recursively reset the owner/group of the postgres datadir?
 postgresql_server_chown_datadir: false
 
-
 ######################################################################
 # Internal role variables, do not modify
 ######################################################################
 
-# Uses postgresql_distribution_redhat from ome.postgresql_client
-postgresql_dist:
-  redhat:
-    bindir: /usr/pgsql-{{ postgresql_version }}/bin
-    confdir: /var/lib/pgsql/{{ postgresql_version }}/data
-    conf_postgresql_src: postgresql-conf.j2
-    datadir: /var/lib/pgsql/{{ postgresql_version }}/data
-    basename: >-
-      {{ postgresql_distribution_redhat[postgresql_version].basename }}
-    repoid: "{{ postgresql_distribution_redhat[postgresql_version].repo }}"
-    setupname: "{{ postgresql_distribution_redhat[postgresql_version].setup }}"
-    service: postgresql-{{ postgresql_version }}
-    version_suffix: >-
-      {{
-        (postgresql_package_version | length > 0) |
-        ternary('-' + postgresql_package_version, '')
-      }}
-  debian:
-    bindir: /usr/lib/postgresql/{{ postgresql_version }}/bin
-    confdir: /etc/postgresql/{{ postgresql_version }}/main
-    conf_postgresql_src: postgresql-conf-10-ubuntu.j2
-    datadir: /var/lib/postgresql/{{ postgresql_version }}/main
-    basename: postgresql-{{ postgresql_version }}
-    service: postgresql
+# Attributes are parsed and used to set facts at tasks/redhat.yml.
+# Overriding the default values allow to configure future versions of
+# PostgreSQL, e.g. different paths according to the version, config, etc.
+# NOTE: Default values rely on variable postgresql_distribution_redhat, which is
+# by default set at ome.postgresql_client.
+postgresql_dist_redhat:
+  bindir: /usr/pgsql-{{ postgresql_version }}/bin
+  confdir: /var/lib/pgsql/{{ postgresql_version }}/data
+  conf_postgresql_src: postgresql-conf.j2
+  datadir: /var/lib/pgsql/{{ postgresql_version }}/data
+  basename: >-
+    {{ postgresql_distribution_redhat[postgresql_version].basename }}
+  repoid: "{{ postgresql_distribution_redhat[postgresql_version].repo }}"
+  setupname: "{{ postgresql_distribution_redhat[postgresql_version].setup }}"
+  service: postgresql-{{ postgresql_version }}
+  version_suffix: >-
+    {{
+      (postgresql_package_version | length > 0) |
+      ternary('-' + postgresql_package_version, '')
+    }}
+
+# Attributes are parsed and used to set facts at tasks/debian.yml.
+# Debian variation, following the same principles of postgresql_dist_redhat
+postgresql_dist_debian:
+  bindir: /usr/lib/postgresql/{{ postgresql_version }}/bin
+  confdir: /etc/postgresql/{{ postgresql_version }}/main
+  conf_postgresql_src: postgresql-conf-10-ubuntu.j2
+  datadir: /var/lib/postgresql/{{ postgresql_version }}/main
+  basename: postgresql-{{ postgresql_version }}
+  service: postgresql

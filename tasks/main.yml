@@ -6,14 +6,14 @@
     msg: >
       Variable 'postgresql_users_databases' has been replaced by
       'postgresql_databases' and 'postgresql_users'
-  when: 'postgresql_users_databases | default(False)'
+  when: "postgresql_users_databases | default(False)"
 
 - name: postgres | fail if postgresql_install_server true
   fail:
     msg: >
       Variable 'postgresql_install_server=false' has been replaced by the
       'ome.postgresql_client' role
-  when: 'not (postgresql_install_server | default(True))'
+  when: "not (postgresql_install_server | default(True))"
 
 - import_tasks: redhat.yml
   when: ansible_os_family | lower == 'redhat'
