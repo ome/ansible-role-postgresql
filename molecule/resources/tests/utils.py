@@ -1,6 +1,5 @@
 # Enumerate instead of parsing so we pick up errors if a host is added/changed
 ver_lookup = {
-    "postgresql-96-c7": ("9.6", "centos"),
     "postgresql-10-c7": ("10", "centos"),
     "postgresql-11-c7": ("11", "centos"),
     "postgresql-12-c7": ("12", "centos"),

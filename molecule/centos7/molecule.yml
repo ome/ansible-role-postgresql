@@ -8,13 +8,6 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-96-c7
-    image: centos/systemd
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    groups:
-      - extra_options
   - name: postgresql-10-c7
     image: centos/systemd
     image_version: latest
@@ -40,9 +33,6 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-96-c7:
-        postgresql_version: "9.6"
-        postgresql_package_version: "9.6.13"
       postgresql-10-c7:
         postgresql_version: "10"
       postgresql-11-c7:
