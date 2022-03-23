@@ -8,12 +8,6 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: postgresql-96-u1804
-    image: leandelivery/docker-systemd:ubuntu-18.04
-    command: /sbin/init
-    privileged: true
-    tmpfs:
-      - /sys/fs/cgroup
   - name: postgresql-10-u1804
     image: leandelivery/docker-systemd:ubuntu-18.04
     command: /sbin/init
@@ -40,8 +34,6 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-96-u1804:
-        postgresql_version: "9.6"
       postgresql-10-u1804:
         postgresql_version: "10"
         ansible_python_interpreter: /usr/bin/python3
