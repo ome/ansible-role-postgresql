@@ -1,0 +1,59 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: molecule/resources/requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: postgresql-10-u2004
+    image: jrei/systemd-ubuntu:20.04
+    command: /sbin/init
+    privileged: true
+    tmpfs:
+      - /sys/fs/cgroup
+    groups:
+      - extra_options
+  - name: postgresql-11-u2004
+    image: jrei/systemd-ubuntu:20.04
+    command: /sbin/init
+    privileged: true
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-12-u2004
+    image: jrei/systemd-ubuntu:20.04
+    command: /sbin/init
+    privileged: true
+    tmpfs:
+      - /sys/fs/cgroup
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  inventory:
+    host_vars:
+      postgresql-10-u2004:
+        postgresql_version: "10"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-11-u2004:
+        postgresql_version: "11"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-12-u2004:
+        postgresql_version: "12"
+        ansible_python_interpreter: /usr/bin/python3
+    group_vars:
+      extra_options:
+        postgresql_server_conf:
+          shared_preload_libraries: "'pg_stat_statements'"
+          log_filename: "'postgresql-%F.log'"
+  playbooks:
+    converge: ../resources/playbook.yml
+scenario:
+  name: ubuntu2004
+verifier:
+  name: testinfra
+  directory: ../resources/tests/
+  lint:
+    name: flake8
