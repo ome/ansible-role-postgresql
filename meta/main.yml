@@ -12,6 +12,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
+        - focal
   role_name: postgresql
   galaxy_tags: ['postgresql', 'database']
 
