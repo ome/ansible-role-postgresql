@@ -29,8 +29,7 @@ def test_databases(host, name, expected_db):
 
 
 def test_server_listen(host):
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
+    version = get_version(host)
     if host.system_info.distribution == 'centos':
         configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
     else:
@@ -50,7 +49,7 @@ def test_server_listen(host):
 
 
 def test_psql_version(host):
-    ver = get_version(host.backend.get_hostname())
+    ver = get_version(host)
     out = host.check_output('psql --version')
     assert out.startswith('psql (PostgreSQL) {}.'.format(ver))
 

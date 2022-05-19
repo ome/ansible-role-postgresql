@@ -8,8 +8,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_server_additional_config(host):
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
+    version = get_version(host)
     if host.system_info.distribution == 'centos':
         configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
     else:
@@ -22,8 +21,7 @@ def test_server_additional_config(host):
 
 def test_server_log_file_name(host):
     # Check previous day too in case this is run at midnight
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
+    version = get_version(host)
     if host.system_info.distribution == 'centos':
         logdir = '/var/lib/pgsql/{version}/data/pg_log'
     else:
