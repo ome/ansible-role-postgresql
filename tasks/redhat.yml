@@ -26,8 +26,6 @@
         ansible_python_version is version('3.0.0', '<') | ternary('2', '3')
       }}-psycopg2
     state: present
-    disablerepo: "*"
-    enablerepo: "{{ postgresql_dist_redhat.repoid }}"
 
 - name: postgres | set redhat dist variables
   set_fact:
