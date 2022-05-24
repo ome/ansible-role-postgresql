@@ -3,7 +3,7 @@ import pytest
 import testinfra.utils.ansible_runner
 import uuid
 from re import match
-from utils import get_distribution, get_version
+from utils import get_version
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
@@ -16,13 +16,12 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     ('secretdb', 'secretdb|{lang}.UTF-8|{lang}.UTF-8')
 ])
 def test_databases(host, name, expected_db):
-    hostname = host.backend.get_hostname()
     sql = ("SELECT datname,datcollate,datctype FROM pg_database "
            "WHERE datname='%s'" % name)
     with host.sudo('postgres'):
         out = host.check_output('psql postgres -c "%s" -At' % sql)
 
-    if get_distribution(hostname) == 'centos':
+    if host.system_info.distribution == 'centos':
         lang = 'en_US'
     else:
         lang = 'C'
@@ -30,9 +29,8 @@ def test_databases(host, name, expected_db):
 
 
 def test_server_listen(host):
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
-    if get_distribution(hostname) == 'centos':
+    version = get_version(host)
+    if host.system_info.distribution == 'centos':
         configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
     else:
         configfile = '/etc/postgresql/{version}/main/postgresql.conf'
@@ -51,7 +49,7 @@ def test_server_listen(host):
 
 
 def test_psql_version(host):
-    ver = get_version(host.backend.get_hostname())
+    ver = get_version(host)
     out = host.check_output('psql --version')
     assert out.startswith('psql (PostgreSQL) {}.'.format(ver))
 

@@ -1,16 +1,15 @@
 import os
 import testinfra.utils.ansible_runner
 from datetime import datetime, timedelta
-from utils import get_distribution, get_version
+from utils import get_version
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('extra_options')
 
 
 def test_server_additional_config(host):
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
-    if get_distribution(hostname) == 'centos':
+    version = get_version(host)
+    if host.system_info.distribution == 'centos':
         configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
     else:
         configfile = '/etc/postgresql/{version}/main/postgresql.conf'
@@ -22,9 +21,8 @@ def test_server_additional_config(host):
 
 def test_server_log_file_name(host):
     # Check previous day too in case this is run at midnight
-    hostname = host.backend.get_hostname()
-    version = get_version(hostname)
-    if get_distribution(hostname) == 'centos':
+    version = get_version(host)
+    if host.system_info.distribution == 'centos':
         logdir = '/var/lib/pgsql/{version}/data/pg_log'
     else:
         logdir = '/var/lib/postgresql/{version}/main/pg_log'

@@ -38,17 +38,14 @@ postgresql_server_chown_datadir: false
 # Attributes are parsed and used to set facts at tasks/redhat.yml.
 # Overriding the default values allow to configure future versions of
 # PostgreSQL, e.g. different paths according to the version, config, etc.
-# NOTE: Default values rely on variable postgresql_distribution_redhat, which is
-# by default set at ome.postgresql_client.
 postgresql_dist_redhat:
   bindir: /usr/pgsql-{{ postgresql_version }}/bin
   confdir: /var/lib/pgsql/{{ postgresql_version }}/data
   conf_postgresql_src: postgresql-conf.j2
   datadir: /var/lib/pgsql/{{ postgresql_version }}/data
-  basename: >-
-    {{ postgresql_distribution_redhat[postgresql_version].basename }}
-  repoid: "{{ postgresql_distribution_redhat[postgresql_version].repo }}"
-  setupname: "{{ postgresql_distribution_redhat[postgresql_version].setup }}"
+  basename: postgresql{{ postgresql_version }}
+  repoid: pgdg{{ postgresql_version }}
+  setupname: postgresql-{{ postgresql_version }}-setup
   service: postgresql-{{ postgresql_version }}
   version_suffix: >-
     {{
