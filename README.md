@@ -9,7 +9,6 @@ Install upstream PostgreSQL server.
 Optionally creates users and databases.
 If you wish to use your distribution's packages then do not use this role.
 
-
 Role Variables
 --------------
 
@@ -59,6 +58,12 @@ If you wish to created a restricted user set the `databases` field in `postgresq
 
 An example can be seen in [`playbook.yml`](playbook.yml).
 
+Limitations
+-----------
+
+The role assumes the PSQL cluster will be installed in the default data directory
+of the Linux distribution and this directory is not configurable as of the current
+version.
 
 Example Playbook
 ----------------
