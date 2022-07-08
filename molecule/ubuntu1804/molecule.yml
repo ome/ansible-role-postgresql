@@ -34,6 +34,12 @@ platforms:
     privileged: true
     tmpfs:
       - /sys/fs/cgroup
+  - name: postgresql-14-u1804
+    image: leandelivery/docker-systemd:ubuntu-18.04
+    command: /sbin/init
+    privileged: true
+    tmpfs:
+      - /sys/fs/cgroup
 provisioner:
   name: ansible
   lint:
@@ -51,6 +57,9 @@ provisioner:
         ansible_python_interpreter: /usr/bin/python3
       postgresql-13-u1804:
         postgresql_version: "13"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-14-u1804:
+        postgresql_version: "14"
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
       extra_options:

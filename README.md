@@ -14,7 +14,7 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `10`, `11`, `12`, `13`
+- `postgresql_version`: The PostgreSQL major version: `10`, `11`, `12`, `13`, `14`
 - `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 - `postgresql_dist_redhat` or `postgresql_dist_debian`: Object that define configuration attributes for PostgreSQL on each specific OS, these variables allow to change the interaction between variables defined at [ome.postgresql](https://galaxy.ansible.com/ome/postgresql) and [ome.postgresql_client](https://github.com/ome/ansible-role-postgresql-client)
 
