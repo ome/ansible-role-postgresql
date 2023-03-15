@@ -10,14 +10,6 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: postgresql-10-u2004
-    image: jrei/systemd-ubuntu:20.04
-    command: /sbin/init
-    privileged: true
-    tmpfs:
-      - /sys/fs/cgroup
-    groups:
-      - extra_options
   - name: postgresql-11-u2004
     image: jrei/systemd-ubuntu:20.04
     command: /sbin/init
@@ -42,9 +34,6 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-10-u2004:
-        postgresql_version: "10"
-        ansible_python_interpreter: /usr/bin/python3
       postgresql-11-u2004:
         postgresql_version: "11"
         ansible_python_interpreter: /usr/bin/python3
