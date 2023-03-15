@@ -5,8 +5,10 @@ dependency:
     role-file: molecule/resources/requirements.yml
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: postgresql-10-c7
     image: centos/systemd
@@ -60,5 +62,3 @@ scenario:
 verifier:
   name: testinfra
   directory: ../resources/tests/
-  lint:
-    name: flake8
