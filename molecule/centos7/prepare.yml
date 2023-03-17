@@ -3,8 +3,8 @@
 - name: Prepare all
   hosts: all
   tasks:
-  - name: Upgrade ca-certificates
-    yum:
-      pkg:
-        - ca-certificates
-      state: latest
+    - name: Upgrade ca-certificates
+      yum:
+        pkg:
+          - ca-certificates
+        state: latest

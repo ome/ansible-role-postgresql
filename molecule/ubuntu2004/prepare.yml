@@ -3,5 +3,5 @@
 - name: Prepare all
   hosts: all
   tasks:
-  - apt:
-      update_cache: yes
+    - apt:
+        update_cache: true

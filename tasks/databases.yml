@@ -58,7 +58,7 @@
       when: "item.restrict | default(False)"
       with_items:
         - "{{ postgresql_databases }}"
-      changed_when: False
+      changed_when: false
 
     # Revoke the default permissions on the public schema
     - name: postgres | revoke default schema permissions
@@ -72,7 +72,7 @@
       when: "item.restrict | default(False)"
       with_items:
         - "{{ postgresql_databases }}"
-      changed_when: False
+      changed_when: false
 
     # The default public schema is owned by postgres, and since the PUBLIC
     # privileges are revoked we must grant them back to the owner
