@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   roles:
-    - role: ansible-role-postgresql
+    - role: ome.postgresql
       postgresql_databases:
         - name: publicdb
         - name: secretdb
