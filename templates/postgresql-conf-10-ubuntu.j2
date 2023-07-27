@@ -490,7 +490,7 @@ cluster_name = '{{ postgresql_version }}/main'			# added to process titles if no
 #track_io_timing = off
 #track_functions = none			# none, pl, all
 #track_activity_query_size = 1024	# (change requires restart)
-stats_temp_directory = '/var/run/postgresql/{{ postgresql_version }}-main.pg_stat_tmp'
+{% if postgresql_version < 15 %}stats_temp_directory = '/var/run/postgresql/{{ postgresql_version }}-main.pg_stat_tmp'{% endif %}
 
 
 # - Statistics Monitoring -
