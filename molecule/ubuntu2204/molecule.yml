@@ -10,48 +10,48 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: postgresql-11-c7
-    image: centos/systemd
-    image_version: latest
+  - name: postgresql-11-u2204
+    image:  eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
-    groups:
-      - extra_options
-  - name: postgresql-12-c7
-    image: centos/systemd
-    image_version: latest
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-12-u2204
+    image:  eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
-    groups:
-      - extra_options
-  - name: postgresql-13-c7
-    image: centos/systemd
-    image_version: latest
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-13-u2204
+    image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
-    groups:
-      - extra_options
-  - name: postgresql-14-c7
-    image: centos/systemd
-    image_version: latest
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-14-u2204
+    image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
-    groups:
-      - extra_options
+    tmpfs:
+      - /sys/fs/cgroup
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-11-c7:
+      postgresql-11-u2204:
         postgresql_version: "11"
-      postgresql-12-c7:
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-12-u2204:
         postgresql_version: "12"
-      postgresql-13-c7:
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-13-u2204:
         postgresql_version: "13"
-      postgresql-14-c7:
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-14-u2204:
         postgresql_version: "14"
+        ansible_python_interpreter: /usr/bin/python3
     group_vars:
       extra_options:
         postgresql_server_conf:
@@ -60,7 +60,7 @@ provisioner:
   playbooks:
     converge: ../resources/playbook.yml
 scenario:
-  name: centos7
+  name: ubuntu2204
 verifier:
   name: testinfra
   directory: ../resources/tests/

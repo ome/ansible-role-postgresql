@@ -3,5 +3,5 @@
 - name: Prepare all
   hosts: all
   tasks:
-    - apt:
+    - ansible.builtin.apt:
         update_cache: true
