@@ -14,24 +14,28 @@ platforms:
     image:  eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
     tmpfs:
       - /sys/fs/cgroup
   - name: postgresql-12-u2204
     image:  eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
     tmpfs:
       - /sys/fs/cgroup
   - name: postgresql-13-u2204
     image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
     tmpfs:
       - /sys/fs/cgroup
   - name: postgresql-14-u2204
     image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
     tmpfs:
       - /sys/fs/cgroup
 provisioner:

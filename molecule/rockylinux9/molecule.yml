@@ -15,6 +15,9 @@ platforms:
     image_version: latest
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
     groups:
       - extra_options
   - name: postgresql-12-r9
@@ -22,6 +25,9 @@ platforms:
     image_version: latest
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
     groups:
       - extra_options
   - name: postgresql-13-r9
@@ -29,6 +35,9 @@ platforms:
     image_version: latest
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
     groups:
       - extra_options
   - name: postgresql-14-r9
@@ -36,6 +45,9 @@ platforms:
     image_version: latest
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
     groups:
       - extra_options
 provisioner:
