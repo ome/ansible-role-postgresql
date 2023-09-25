@@ -17,7 +17,4 @@ galaxy_info:
   galaxy_tags: ['postgresql', 'database']
 
 dependencies:
-  - src: https://github.com/khaledk2/ansible-role-postgresql-client/
-    scm: git
-    version: update_to_rockylinux9_and_ubuntu2204
-    name: postgresql_client
+  - role: postgresql_client
