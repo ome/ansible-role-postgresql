@@ -30,6 +30,13 @@
       }}-psycopg2
     state: present
 
+- name: get langpack for en
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+    name: glibc-langpack-en
+	state: present
+
 - name: postgres | set redhat dist variables
   set_fact:
     postgresql_dist_datadir: "{{ postgresql_dist_redhat.datadir }}"
