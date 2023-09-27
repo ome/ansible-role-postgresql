@@ -30,12 +30,12 @@
       }}-psycopg2
     state: present
 
-- name: get langpack for en
+- name: localectl set-locale LANG=en_US.utf8
   become: true
   ansible.builtin.dnf:
     update_cache: true
     name: glibc-langpack-en
-	state: present
+    state: present
 
 - name: postgres | set redhat dist variables
   set_fact:
