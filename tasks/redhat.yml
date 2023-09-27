@@ -30,7 +30,7 @@
       }}-psycopg2
     state: present
 
-- name: localectl set-locale LANG=en_US.utf8
+- name: get langpack for en
   become: true
   ansible.builtin.dnf:
     update_cache: true
