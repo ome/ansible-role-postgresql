@@ -1,9 +1,10 @@
 ---
-# tasks file for ome.postgresql centos
+# tasks file for ome.postgresql rocky
 
 - name: postgres | install server packages
   become: true
-  yum:
+  ansible.builtin.dnf:
+    update_cache: true
     name: >-
       {{ postgresql_dist_redhat.basename }}-server{{
          postgresql_dist_redhat.version_suffix }}
@@ -11,7 +12,8 @@
 
 - name: postgres | install extension packages
   become: true
-  yum:
+  ansible.builtin.dnf:
+    update_cache: true
     name: >-
       {{ postgresql_dist_redhat.basename }}-contrib{{
          postgresql_dist_redhat.version_suffix }}
@@ -19,12 +21,20 @@
 
 - name: postgres | install ansible prerequisites
   become: true
-  yum:
+  ansible.builtin.dnf:
+    update_cache: true
     # Needs to match the Ansible interpreter
     name: >-
       python{{
         ansible_python_version is version('3.0.0', '<') | ternary('2', '3')
       }}-psycopg2
+    state: present
+
+- name: get langpack for en
+  become: true
+  ansible.builtin.dnf:
+    update_cache: true
+    name: glibc-langpack-en
     state: present
 
 - name: postgres | set redhat dist variables

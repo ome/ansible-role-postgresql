@@ -3,14 +3,16 @@
 
 - name: postgres | install packages
   become: true
-  apt:
+  ansible.builtin.apt:
+    update_cache: true
     name: >-
       {{ postgresql_dist_debian.basename }}
     state: present
 
 - name: postgres | install ansible prerequisites
   become: true
-  apt:
+  ansible.builtin.apt:
+    update_cache: true
     # Needs to match the Ansible interpreter
     name: >-
       python{{

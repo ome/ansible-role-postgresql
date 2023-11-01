@@ -21,7 +21,7 @@ def test_databases(host, name, expected_db):
     with host.sudo('postgres'):
         out = host.check_output('psql postgres -c "%s" -At' % sql)
 
-    if host.system_info.distribution == 'centos':
+    if host.system_info.distribution == 'rocky':
         lang = 'en_US'
     else:
         lang = 'C'
@@ -30,7 +30,7 @@ def test_databases(host, name, expected_db):
 
 def test_server_listen(host):
     version = get_version(host)
-    if host.system_info.distribution == 'centos':
+    if host.system_info.distribution == 'rocky':
         configfile = '/var/lib/pgsql/{version}/data/postgresql.conf'
     else:
         configfile = '/etc/postgresql/{version}/main/postgresql.conf'
