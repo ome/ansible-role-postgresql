@@ -17,4 +17,4 @@ galaxy_info:
   galaxy_tags: ['postgresql', 'database']
 
 dependencies:
-  - role: postgresql_client
+  - role: ome.postgresql_client
