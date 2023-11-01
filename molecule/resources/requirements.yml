@@ -1,2 +1,2 @@
 ---
-- name: ome.postgresql_client
+- src: ome.postgresql_client
