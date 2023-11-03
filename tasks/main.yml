@@ -1,6 +1,9 @@
 ---
-# tasks file for ome.postgresql
+- name: postgres | Include ome.postgresql_client role
+  include_role:
+    name: ome.postgresql_client
 
+# tasks file for ome.postgresql
 - name: postgres | fail if postgresql_users_databases defined
   fail:
     msg: >

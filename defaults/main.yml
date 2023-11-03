@@ -5,7 +5,7 @@
 # postgresql_version
 
 # Full package version of postgres, see ome.postgresql_client
-# postgresql_package_version
+postgresql_package_version: ''
 
 # OS system user to become when become_user: <USER> is defined
 postgresql_become_user: postgres
