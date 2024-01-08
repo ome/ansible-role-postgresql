@@ -4,7 +4,7 @@
 # The PostgreSQL major version, required
 # postgresql_version
 
-# Full package version of postgres, see ome.postgresql_client
+# Full package version of postgres, see ome.postgresql-client
 postgresql_package_version: ''
 
 # OS system user to become when become_user: <USER> is defined

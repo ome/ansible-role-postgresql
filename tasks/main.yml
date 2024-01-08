@@ -1,7 +1,7 @@
 ---
-- name: postgres | Include ome.postgresql_client role
+- name: postgres | Include ome.postgresql-client role
   include_role:
-    name: ome.postgresql_client
+    name: ome.postgresql-client
 
 # tasks file for ome.postgresql
 - name: postgres | fail if postgresql_users_databases defined
@@ -15,7 +15,7 @@
   fail:
     msg: >
       Variable 'postgresql_install_server=false' has been replaced by the
-      'ome.postgresql_client' role
+      'ome.postgresql-client' role
   when: "not (postgresql_install_server | default(True))"
 
 - import_tasks: redhat.yml
