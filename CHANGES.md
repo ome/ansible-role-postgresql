@@ -2,6 +2,7 @@
 
 ## Summary of breaking changes
 
+- PostgreSQL 11 is no longer supported by this role.
 - PostgreSQL 9.5 is no longer supported by this role.
 - `postgresql_install_server` is removed, the server is always configured, use `ome.postgresql_client` to install just the client.
 - `postgresql_install_extensions` is removed, extension packages are always installed.
