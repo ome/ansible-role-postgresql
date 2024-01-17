@@ -10,16 +10,6 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: postgresql-11-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
-    command: /sbin/init
-    privileged: true
-    cgroupns_mode: host
-    tmpfs:
-      - /sys/fs/cgroup
-    groups:
-      - extra_options
   - name: postgresql-12-r9
     image: eniocarboni/docker-rockylinux-systemd:9
     image_version: latest
@@ -56,8 +46,6 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-11-r9:
-        postgresql_version: "11"
       postgresql-12-r9:
         postgresql_version: "12"
       postgresql-13-r9:

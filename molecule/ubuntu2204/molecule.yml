@@ -10,13 +10,6 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: postgresql-11-u2204
-    image:  eniocarboni/docker-ubuntu-systemd:22.04
-    command: /sbin/init
-    privileged: true
-    cgroupns_mode: host
-    tmpfs:
-      - /sys/fs/cgroup
   - name: postgresql-12-u2204
     image:  eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
@@ -44,9 +37,6 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
-      postgresql-11-u2204:
-        postgresql_version: "11"
-        ansible_python_interpreter: /usr/bin/python3
       postgresql-12-u2204:
         postgresql_version: "12"
         ansible_python_interpreter: /usr/bin/python3
