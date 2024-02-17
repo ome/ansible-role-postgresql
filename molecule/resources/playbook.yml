@@ -12,6 +12,7 @@
         - user: alice
           password: alice123
           # alice is the owner of secretdb so already has access
+          privilege: "ALL"
           databases: [publicdb]
         - user: bob
           password: bob123
