@@ -138,6 +138,8 @@ def test_create_table(host, name, database, should_pass):
     rnd = 'table_' + str(uuid.uuid4()).replace('-', '')
     sql = "CREATE TABLE %s (text text primary key);" % rnd
     c = psql(host, database, sql, name)
+    # Check version
+    ver = get_version(host)
     if name != 'alice' and database == 'publicdb' and ver >= "15":
         should_pass = False
     if should_pass:
