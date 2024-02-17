@@ -50,6 +50,16 @@ platforms:
       - /sys/fs/cgroup
     groups:
       - extra_options
+  - name: postgresql-16-r9
+    image: eniocarboni/docker-rockylinux-systemd:9
+    image_version: latest
+    command: /sbin/init
+    privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
+    groups:
+      - extra_options
 provisioner:
   name: ansible
   lint:
@@ -64,6 +74,8 @@ provisioner:
         postgresql_version: "14"
       postgresql-15-r9:
         postgresql_version: "15"
+      postgresql-16-r9:
+        postgresql_version: "16"
     group_vars:
       extra_options:
         postgresql_server_conf:
