@@ -111,7 +111,7 @@
       with_subelements:
         - "{{ postgresql_users }}"
         - databases
-    
+
     - name: postgres | grant specified privileges on default public schema
       postgresql_privs:
         database: "{{ item.1 }}"
