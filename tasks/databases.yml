@@ -107,6 +107,20 @@
         roles: "{{ item.0.user }}"
         state: present
         type: schema
+      when: item.0.privilege is not defined
+      with_subelements:
+        - "{{ postgresql_users }}"
+        - databases
+    
+    - name: postgres | grant specified privileges on default public schema
+      postgresql_privs:
+        database: "{{ item.1 }}"
+        objs: public
+        privs: "{{ item.0.privilege }}"
+        roles: "{{ item.0.user }}"
+        state: present
+        type: schema
+      when: item.0.privilege is defined
       with_subelements:
         - "{{ postgresql_users }}"
         - databases
