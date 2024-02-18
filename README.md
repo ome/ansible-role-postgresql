@@ -14,7 +14,7 @@ Role Variables
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `12`, `13`, `14`, `15`
+- `postgresql_version`: The PostgreSQL major version: `12`, `13`, `14`, `15`, `16`
 - `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 - `postgresql_dist_redhat` or `postgresql_dist_debian`: Object that define configuration attributes for PostgreSQL on each specific OS, these variables allow to change the interaction between variables defined at [ome.postgresql](https://galaxy.ansible.com/ome/postgresql) and [ome.postgresql_client](https://github.com/ome/ansible-role-postgresql-client)
 
@@ -34,6 +34,7 @@ The following parameters will be ignored if `postgresql_install_server: False`:
   - `password`: Database user password
   - `databases`: List of databases that user can connect to, required but can be empty `[]`
   - `roles`: Role attribute flags, optional
+  - `privileges`: Privilege granted
   If you want the user to have restricted access see the section below on Restricted users.
 - `postgresql_server_listen`: Listen on these interfaces, default `localhost`, use `'*'` for all
 - `postgresql_server_conf`: Dictionary of additional postgresql.conf options
