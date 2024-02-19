@@ -107,7 +107,6 @@
         roles: "{{ item.0.user }}"
         state: present
         type: schema
-      when: item.0.privilege is not defined
       with_subelements:
         - "{{ postgresql_users }}"
         - databases
