@@ -12,7 +12,6 @@
         - user: alice
           password: alice123
           # alice is the owner of secretdb so already has access
-          privilege: "ALL"
           databases: [publicdb]
         - user: bob
           password: bob123
@@ -21,12 +20,16 @@
         - user: charles
           password: charles123
           databases: []
+        - user: tester
+          password: tester123
+          databases: [publicdb, secretdb]
+          roles: "SUPERUSER"
 
 - hosts: all
   tasks:
     - name: create test tables publicdb
       command: >
-        env PGPASSWORD=alice123 psql -h localhost -U alice publicdb
+        env PGPASSWORD=tester123 psql -h localhost -U tester publicdb
         -c "{{ item }}"
       register: result
       changed_when: >
