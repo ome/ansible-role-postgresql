@@ -67,6 +67,7 @@ def createdb(host, db, should_pass, password, name):
 
 
 @pytest.mark.parametrize("name,password,should_pass", [
+    ('tester', 'tester123', True),
     ('alice', 'alice123', False),
     ('bob', 'bob123', True),
     ('charles', 'charles123', False),
@@ -131,14 +132,14 @@ def test_select(host, name, database, table, should_pass):
     ('tester', 'publicdb', True),
     ('tester', 'secretdb', True),
 
-    ('alice', 'publicdb', True),
+    ('alice', 'publicdb', False),
     ('alice', 'secretdb', True),
 
-    ('bob', 'publicdb', True),
+    ('bob', 'publicdb', False),
     ('bob', 'secretdb', False),
 
     # TODO: charles can create tables in publicdb, in version < 15
-    ('charles', 'publicdb', True),
+    ('charles', 'publicdb', False),
     ('charles', 'secretdb', False),
 ])
 def test_create_table(host, name, database, should_pass):
