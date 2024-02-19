@@ -99,7 +99,7 @@ def test_user_roles(host, name, expected_roles):
 
 # Owner and users with SELECT privileges can read
 @pytest.mark.parametrize("name,database,table,should_pass", [
-    ('alice', 'publicdb', "regular", True),
+    ('alice', 'publicdb', "regular", False),
     ('alice', 'secretdb', "regular", True),
     ('alice', 'secretdb', "password", True),
 
@@ -122,7 +122,7 @@ def test_select(host, name, database, table, should_pass):
 
 
 # Default PUBLIC allows anyone with access to create a table
-# This is removed if restrict was set
+# in publicdb for psql version < 15
 @pytest.mark.parametrize("name,database,should_pass", [
     ('alice', 'publicdb', True),
     ('alice', 'secretdb', True),
@@ -130,7 +130,7 @@ def test_select(host, name, database, table, should_pass):
     ('bob', 'publicdb', True),
     ('bob', 'secretdb', False),
 
-    # TODO: charles can create tables in publicdb, is this expected?
+    # TODO: charles can create tables in publicdb, in version < 15
     ('charles', 'publicdb', True),
     ('charles', 'secretdb', False),
 ])
@@ -140,7 +140,7 @@ def test_create_table(host, name, database, should_pass):
     c = psql(host, database, sql, name)
     # Check version
     ver = get_version(host)
-    if name != 'alice' and database == 'publicdb' and ver >= "15":
+    if database == 'publicdb' and ver >= "15":
         should_pass = False
     if should_pass:
         assert c.rc == 0
@@ -150,7 +150,7 @@ def test_create_table(host, name, database, should_pass):
 
 
 @pytest.mark.parametrize("name,database,table,should_pass", [
-    ('alice', 'publicdb', "regular", True),
+    ('alice', 'publicdb', "regular", False),
     ('alice', 'secretdb', "regular", True),
     ('alice', 'secretdb', "password", True),
 
