@@ -22,7 +22,7 @@
           databases: []
         - user: tester
           password: tester123
-          databases: [publicdb, secretdb]
+          databases: []
           roles: "SUPERUSER"
 
 - hosts: all
