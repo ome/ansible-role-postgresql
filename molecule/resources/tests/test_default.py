@@ -87,6 +87,7 @@ def psql(host, database, sql, name):
 
 
 @pytest.mark.parametrize("name,expected_roles", [
+    ('tester', 'tester|t|t|f|f|t|f|-1|********||f||'),
     ('alice', 'alice|f|t|f|f|t|f|-1|********||f||'),
     ('bob', 'bob|f|t|f|t|t|f|-1|********||f||'),
 ])
