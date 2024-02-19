@@ -126,8 +126,6 @@ def test_select(host, name, database, table, should_pass):
         assert 'permission denied' in c.stderr
 
 
-# Default PUBLIC allows anyone with access to create a table
-# in publicdb for psql version < 15
 @pytest.mark.parametrize("name,database,should_pass", [
     ('tester', 'publicdb', True),
     ('tester', 'secretdb', True),
@@ -138,7 +136,6 @@ def test_select(host, name, database, table, should_pass):
     ('bob', 'publicdb', False),
     ('bob', 'secretdb', False),
 
-    # TODO: charles can create tables in publicdb, in version < 15
     ('charles', 'publicdb', False),
     ('charles', 'secretdb', False),
 ])
