@@ -55,7 +55,7 @@
         roles: PUBLIC
         state: absent
         type: database
-      when: "item.restrict | default(False)"
+      when: "item.restrict | default(True)"
       with_items:
         - "{{ postgresql_databases }}"
       changed_when: false
@@ -69,7 +69,7 @@
         roles: PUBLIC
         state: absent
         type: schema
-      when: "item.restrict | default(False)"
+      when: "item.restrict | default(True)"
       with_items:
         - "{{ postgresql_databases }}"
       changed_when: false
