@@ -34,7 +34,6 @@ The following parameters will be ignored if `postgresql_install_server: False`:
   - `password`: Database user password
   - `databases`: List of databases that user can connect to, required but can be empty `[]`
   - `roles`: Role attribute flags, optional
-  - `privileges`: Privilege granted
   If you want the user to have restricted access see the section below on Restricted users.
 - `postgresql_server_listen`: Listen on these interfaces, default `localhost`, use `'*'` for all
 - `postgresql_server_conf`: Dictionary of additional postgresql.conf options
