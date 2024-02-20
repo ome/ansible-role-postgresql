@@ -7,7 +7,6 @@
         - name: publicdb
         - name: secretdb
           owner: alice
-          restrict: true
       postgresql_users:
         - user: alice
           password: alice123
