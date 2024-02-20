@@ -9,7 +9,7 @@ Install upstream PostgreSQL server.
 Optionally creates users and databases.
 If you wish to use your distribution's packages then do not use this role.
 This role revokes default `PUBLIC` privileges from database and `public` schema for all supported versions of PostgreSQL.
-This is to be inline with the breaking privileges made in PostgreSQL 15.
+This is to be inline with the breaking change made in PostgreSQL 15.
 
 Role Variables
 --------------
