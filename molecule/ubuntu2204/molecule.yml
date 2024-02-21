@@ -11,7 +11,7 @@ lint: |
   flake8
 platforms:
   - name: postgresql-12-u2204
-    image:  eniocarboni/docker-ubuntu-systemd:22.04
+    image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
@@ -25,6 +25,20 @@ platforms:
     tmpfs:
       - /sys/fs/cgroup
   - name: postgresql-14-u2204
+    image: eniocarboni/docker-ubuntu-systemd:22.04
+    command: /sbin/init
+    privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-15-u2204
+    image: eniocarboni/docker-ubuntu-systemd:22.04
+    command: /sbin/init
+    privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
+  - name: postgresql-16-u2204
     image: eniocarboni/docker-ubuntu-systemd:22.04
     command: /sbin/init
     privileged: true
@@ -45,6 +59,12 @@ provisioner:
         ansible_python_interpreter: /usr/bin/python3
       postgresql-14-u2204:
         postgresql_version: "14"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-15-u2204:
+        postgresql_version: "15"
+        ansible_python_interpreter: /usr/bin/python3
+      postgresql-16-u2204:
+        postgresql_version: "16"
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
       extra_options:

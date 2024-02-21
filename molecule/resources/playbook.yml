@@ -7,7 +7,6 @@
         - name: publicdb
         - name: secretdb
           owner: alice
-          restrict: true
       postgresql_users:
         - user: alice
           password: alice123
@@ -20,12 +19,16 @@
         - user: charles
           password: charles123
           databases: []
+        - user: tester
+          password: tester123
+          databases: []
+          roles: "SUPERUSER"
 
 - hosts: all
   tasks:
     - name: create test tables publicdb
       command: >
-        env PGPASSWORD=alice123 psql -h localhost -U alice publicdb
+        env PGPASSWORD=tester123 psql -h localhost -U tester publicdb
         -c "{{ item }}"
       register: result
       changed_when: >

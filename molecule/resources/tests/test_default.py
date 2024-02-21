@@ -67,6 +67,7 @@ def createdb(host, db, should_pass, password, name):
 
 
 @pytest.mark.parametrize("name,password,should_pass", [
+    ('tester', 'tester123', True),
     ('alice', 'alice123', False),
     ('bob', 'bob123', True),
     ('charles', 'charles123', False),
@@ -86,6 +87,7 @@ def psql(host, database, sql, name):
 
 
 @pytest.mark.parametrize("name,expected_roles", [
+    ('tester', 'tester|t|t|f|f|t|f|-1|********||f||'),
     ('alice', 'alice|f|t|f|f|t|f|-1|********||f||'),
     ('bob', 'bob|f|t|f|t|t|f|-1|********||f||'),
 ])
@@ -99,7 +101,11 @@ def test_user_roles(host, name, expected_roles):
 
 # Owner and users with SELECT privileges can read
 @pytest.mark.parametrize("name,database,table,should_pass", [
-    ('alice', 'publicdb', "regular", True),
+    ('tester', 'publicdb', "regular", True),
+    ('tester', 'secretdb', "regular", True),
+    ('tester', 'secretdb', "password", True),
+
+    ('alice', 'publicdb', "regular", False),
     ('alice', 'secretdb', "regular", True),
     ('alice', 'secretdb', "password", True),
 
@@ -121,17 +127,17 @@ def test_select(host, name, database, table, should_pass):
         assert 'permission denied' in c.stderr
 
 
-# Default PUBLIC allows anyone with access to create a table
-# This is removed if restrict was set
 @pytest.mark.parametrize("name,database,should_pass", [
-    ('alice', 'publicdb', True),
+    ('tester', 'publicdb', True),
+    ('tester', 'secretdb', True),
+
+    ('alice', 'publicdb', False),
     ('alice', 'secretdb', True),
 
-    ('bob', 'publicdb', True),
+    ('bob', 'publicdb', False),
     ('bob', 'secretdb', False),
 
-    # TODO: charles can create tables in publicdb, is this expected?
-    ('charles', 'publicdb', True),
+    ('charles', 'publicdb', False),
     ('charles', 'secretdb', False),
 ])
 def test_create_table(host, name, database, should_pass):
@@ -146,7 +152,11 @@ def test_create_table(host, name, database, should_pass):
 
 
 @pytest.mark.parametrize("name,database,table,should_pass", [
-    ('alice', 'publicdb', "regular", True),
+    ('tester', 'publicdb', "regular", True),
+    ('tester', 'secretdb', "regular", True),
+    ('tester', 'secretdb', "password", True),
+
+    ('alice', 'publicdb', "regular", False),
     ('alice', 'secretdb', "regular", True),
     ('alice', 'secretdb', "password", True),
 

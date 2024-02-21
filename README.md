@@ -8,13 +8,15 @@ Install upstream PostgreSQL server.
 
 Optionally creates users and databases.
 If you wish to use your distribution's packages then do not use this role.
+This role revokes default `PUBLIC` privileges from database and `public` schema for all supported versions of PostgreSQL.
+This is to be inline with the breaking change made in PostgreSQL 15.
 
 Role Variables
 --------------
 
 Defaults: `defaults/main.yml`
 
-- `postgresql_version`: The PostgreSQL major version: `12`, `13`, `14`
+- `postgresql_version`: The PostgreSQL major version: `12`, `13`, `14`, `15`, `16`
 - `postgresql_package_version`: The PostgreSQL full version, leave this empty to use the latest minor release from `postgresql_version`, ignored on Ubuntu
 - `postgresql_dist_redhat` or `postgresql_dist_debian`: Object that define configuration attributes for PostgreSQL on each specific OS, these variables allow to change the interaction between variables defined at [ome.postgresql](https://galaxy.ansible.com/ome/postgresql) and [ome.postgresql_client](https://github.com/ome/ansible-role-postgresql-client)
 
@@ -27,7 +29,6 @@ The following parameters will be ignored if `postgresql_install_server: False`:
   - `lc_ctype`: Character classification (LC_CTYPE) to use in the database
   - `encoding`: Encoding of the database, default `UTF-8`
   - `template`: Template used to create the database
-  - `restrict`: If `True` revoke default `PUBLIC` privileges from database and `public` schema, default `False`
 - `postgresql_users`: List of dictionaries of users.
   Items should be of the form:
   - `user`: Database username
@@ -50,7 +51,7 @@ Restricted databases
 --------------------
 
 In general it is not possible to create users with restricted access (e.g. read-only users) until a schema has been populated.
-This role optionally removes the default PUBLIC privileges from all databases, then grants:
+This role removes the default PUBLIC privileges from all databases, then grants:
 - `ALL` privileges to the database owner if specified (`postgresql_databases[].owner`)
 - `CONNECT` privilege to the database, and `USAGE` privilege on the `public` schema, to databases listed for each user (`postgresql_users[].databases`)
 
@@ -96,7 +97,6 @@ Example Playbook
       - postgresql_databases:
         - name: secretdb
           owner: alice
-          restrict: True
       - postgresql_users:
         - user: alice
           password: alice123
