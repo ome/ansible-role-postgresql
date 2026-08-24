@@ -11,8 +11,7 @@ lint: |
   flake8
 platforms:
   - name: postgresql-14-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
+    image: eniocarboni/docker-rockylinux-systemd:latest    
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
@@ -21,8 +20,7 @@ platforms:
     groups:
       - extra_options
   - name: postgresql-15-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
+    image: eniocarboni/docker-rockylinux-systemd:latest    
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
@@ -31,8 +29,7 @@ platforms:
     groups:
       - extra_options
   - name: postgresql-16-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
+    image: eniocarboni/docker-rockylinux-systemd:latest    
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
@@ -41,8 +38,7 @@ platforms:
     groups:
       - extra_options
   - name: postgresql-17-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
+    image: eniocarboni/docker-rockylinux-systemd:latest    
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
@@ -51,8 +47,7 @@ platforms:
     groups:
       - extra_options
   - name: postgresql-18-r9
-    image: eniocarboni/docker-rockylinux-systemd:9
-    image_version: latest
+    image: eniocarboni/docker-rockylinux-systemd:latest    
     command: /sbin/init
     privileged: true
     cgroupns_mode: host
