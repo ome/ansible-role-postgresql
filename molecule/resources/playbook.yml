@@ -60,7 +60,7 @@
       become: true
       become_user: postgres
       community.postgresql.postgresql_privs:
-        database: "{{ item }}"
+        login_db: "{{ item }}"
         obj: regular
         privs: SELECT
         roles: bob

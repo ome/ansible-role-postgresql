@@ -50,7 +50,7 @@
 
     - name: postgres | revoke default permissions
       community.postgresql.postgresql_privs:
-        database: "{{ item.name }}"
+        login_db: "{{ item.name }}"
         privs: ALL
         roles: PUBLIC
         state: absent
@@ -62,7 +62,7 @@
     # Revoke the default permissions on the public schema
     - name: postgres | revoke default schema permissions
       community.postgresql.postgresql_privs:
-        database: "{{ item.name }}"
+        login_db: "{{ item.name }}"
         obj: public
         privs: ALL
         roles: PUBLIC
@@ -76,7 +76,7 @@
     # privileges are revoked we must grant them back to the owner
     - name: postgres | grant database owner public schema privileges
       community.postgresql.postgresql_privs:
-        database: "{{ item.name }}"
+        login_db: "{{ item.name }}"
         obj: public
         privs: ALL
         roles: "{{ item.owner }}"
@@ -88,7 +88,7 @@
 
     - name: postgres | grant connect privileges
       community.postgresql.postgresql_privs:
-        database: "{{ item.1 }}"
+        login_db: "{{ item.1 }}"
         privs: CONNECT
         roles: "{{ item.0.user }}"
         state: present
@@ -99,7 +99,7 @@
 
     - name: postgres | grant usage privileges on default public schema
       community.postgresql.postgresql_privs:
-        database: "{{ item.1 }}"
+        login_db: "{{ item.1 }}"
         objs: public
         privs: USAGE
         roles: "{{ item.0.user }}"
